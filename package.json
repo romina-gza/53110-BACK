@@ -1,0 +1,15 @@
+{
+  "name": "53110-back",
+  "version": "1.0.0",
+  "description": "proyecto backend | Coderhouse",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Romina Galarza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
