@@ -37,7 +37,7 @@ router.get('/:cid', async ( req, res ) => {
     
 })
 
-/* router.post('/:cid/product/:pid', async (req, res) => {
+|router.post('/:cid/product/:pid', async (req, res) => {
     let cid = Number(req.params.cid)
     let pid = Number(req.params.pid)
     
@@ -47,7 +47,7 @@ router.get('/:cid', async ( req, res ) => {
     
     // verifica que productID y cartId exista
     let productId = await products.getProductsById(pid)
-console.log('product id es: ',productId)
+    console.log('product id es: ',productId)
     if (!productId) res.status(400).json( {'message': `El id: ${pid} no existe.` } )
 
     let cartId = await carts.getcartsById(cid)
@@ -55,9 +55,9 @@ console.log('product id es: ',productId)
     if (!cartId) res.status(400).json( {'message': `El id: ${cid} no existe.` } )
     
     // agrega al carrito??
-    let addToCart = await carts.addToCart(cartId, productId)
+    let addToCart = await carts.addToCart(cid, productId.id)
     console.log('add to cart:', addToCart)
     
     res.setHeader('Content-Type','application/json')
     res.status(200).json( addToCart )
-}) */
+}) 

@@ -53,18 +53,20 @@ export default class CartsManager {
         }
     }
 
-    /* async addToCart(cid, pid) {
+    async addToCart(cid, pid) {
         try {
             //let filterIDCart = await this.getcartsById(cid)
+            // buscar por indice
             let listCarts = await this.getCarts()
-            let arr = cid.product
-            arr.push(pid)
-
-            await fs.promises.writeFile(this.path, listCarts, 'utf-8')
+            let indexId = listCarts.findById(obj => obj.id == cid.id)
+            console.log('index id cartManagr ', indexId)
+            //actualizar
+            listCarts[indexId].product = pid
+            await fs.promises.writeFile(this.path,JSON.stringify(listCarts, null, 4))
         } catch (err) {
             return err
         }
-    } */
+    } 
 }
 
 

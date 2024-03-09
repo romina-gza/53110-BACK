@@ -143,8 +143,8 @@
           "title": "nuevo test8",
           "description": "test8 description",
           "thumbnails": [
-               "link",
-               "nuevo"
+               "https://craftypixels.com/placeholder-image/250x250/b410e6/f087f0&text=250x250",
+               "https://craftypixels.com/placeholder-image/250x250/b410e6/f087f0&text=250x250"
           ],
           "price": 1,
           "stock": 1,

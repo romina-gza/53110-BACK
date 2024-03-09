@@ -1,0 +1,26 @@
+<h1>Crear Productos</h1>
+
+    <form action="/realTimeProducts" method="post">
+        <input type="text" name="title" id="title" placeholder="Titulo del producto">
+        <input type="submit" value="Send">
+
+    </form>
+<br>
+
+<h2>Products actuales</h2>
+    <div id="containerCards" class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
+    {{#each product}}
+        <div class="card m-3" style="min-width:18rem; max-width: 18rem;">
+            <img src={{thumbnails.[0]}} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt="imagen" >
+            <div class="card-body">
+            <h5 class="card-title"> {{title}}</h5>
+            <p class="card-text"> {{description}}</p>
+            <p>Price: {{price}}</p>
+            <a href="#" class="btn btn-success">Buy!</a>
+            </div>
+        </div>        
+    {{/each}}
+    </div>
+
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/js/test.js"></script>

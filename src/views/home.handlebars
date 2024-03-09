@@ -1,0 +1,17 @@
+<h1>Todos los productos</h1>
+
+<section> 
+    <div class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
+    {{#each product}}
+        <div class="card m-3" style="min-width:18rem; max-width: 18rem;">
+            <img src={{thumbnails.[0]}} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt="imagen" >
+            <div class="card-body">
+            <h5 class="card-title"> {{title}}</h5>
+            <p class="card-text"> {{description}}</p>
+            <p>Price: {{price}}</p>
+            <a href="#" class="btn btn-success">Buy!</a>
+            </div>
+        </div>        
+    {{/each}}
+    </div>
+</section>
