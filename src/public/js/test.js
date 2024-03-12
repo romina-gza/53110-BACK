@@ -1,13 +1,11 @@
 const socket = io()
 
-/* let form = document.getElementById(form).onsubmit = e => {
-e.preventDefault()
-let title = document.getElementById(title).value
-    io.emit('nuevoProducto', title)
-}
- */
+document.getElementById('form').onsubmit = e => {
+    e.preventDefault();
+    socket.emit('nuevoProducto', {});
+};
 /* 
-io.on('nuevoProducto', nuevoProducto =>{
+socket.on('nuevoProducto', nuevoProducto =>{
     console.log('nuevoProducto: ', nuevoProducto)
     let cardProduct = document.getElementById('containerCards')
     cardProduct+= `
