@@ -1,5 +1,12 @@
-const io = io()
+const socket = io()
 
+/* let form = document.getElementById(form).onsubmit = e => {
+e.preventDefault()
+let title = document.getElementById(title).value
+    io.emit('nuevoProducto', title)
+}
+ */
+/* 
 io.on('nuevoProducto', nuevoProducto =>{
     console.log('nuevoProducto: ', nuevoProducto)
     let cardProduct = document.getElementById('containerCards')
@@ -15,3 +22,4 @@ io.on('nuevoProducto', nuevoProducto =>{
         </div> 
     `
 })
+ */

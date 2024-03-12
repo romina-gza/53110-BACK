@@ -21,7 +21,7 @@ app.use( express.static( path.join( __dirname, "public" ) ) )
 //config handlebars
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
-app.set("views", path.join( __dirname, "views"))
+app.set("views", path.join(__dirname, "views"))
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
@@ -42,3 +42,9 @@ const http = app.listen(PORT, (req,res)=>{
 
 io = new Server(http)
 
+io.on('connection', socket =>{
+    console.log('nuevo cliente conectado', 'SOCKET es: ', socket.id)
+    io.on('nuevoProducto', data=>{
+        console.log('data es:', data)
+    })
+})

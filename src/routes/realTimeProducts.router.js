@@ -15,12 +15,15 @@ router.get('/', async (req, res)=> {
 })
 
 router.post('/', async (req, res)=> {
-    let data = req.body
-    console.log('data de post es : ', data)
-    let products = await list.addProducts(data)
-    console.log('products ', products)
+    let data = document.getElementById(title)
+    console.log(data.value)
 
-    req.io.emit('nuevoProducto', products)
-    res.status(201).render('realTimeProducts', { products })
+    // let data = req.body
+    // console.log('data de post es : ', data)
+    // let products = await list.addProducts(data)
+    // console.log('products ', products)
+
+    req.io.emit('nuevoProducto', data)
+    res.status(201).render('realTimeProducts', { data })
     
 })
