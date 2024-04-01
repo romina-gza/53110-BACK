@@ -3,7 +3,7 @@ import path from "path"
 
 
 import __dirname from "../utils.js"
-import ProductManager from "../manager/productManager.js";
+import ProductManager from "../dao/productManager.js"
 
 
 export const router = Router()

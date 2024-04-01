@@ -2,8 +2,8 @@ import { Router } from "express"
 import path from "path"
 import __dirname from "../utils.js"
 
-import CartsManager from "../manager/cartsManager.js"
-import ProductManager from "../manager/productManager.js"
+import CartsManager from "../dao/cartsManager.js"
+import ProductManager from "../dao/productManager.js"
 
 export const router = Router()
 // carts instance

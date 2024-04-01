@@ -1,9 +1,19 @@
 const socket = io()
 
-document.getElementById('form').onsubmit = e => {
-    e.preventDefault();
-    socket.emit('nuevoProducto', {});
-};
+const form = document.getElementById('form')
+
+form.addEventListener('submit', e => {
+    e.preventDefault()
+    let title = document.querySelector('input[name=title]').value
+    let price = document.querySelector('input[name=price]').value
+    let description = document.querySelector('input[name=description]').value
+    let stock = document.querySelector('input[name=stock]').value
+    let thumbnails = document.querySelector('input[name=thumbnails]').value
+
+    let product = { price, title, description, stock, thumbnails }
+    console.log('products form hdbs: ', product)
+    socket.emit('newProduct', product)
+})
 /* 
 socket.on('nuevoProducto', nuevoProducto =>{
     console.log('nuevoProducto: ', nuevoProducto)

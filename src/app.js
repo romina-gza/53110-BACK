@@ -2,11 +2,13 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import path from "path"
 import { Server } from 'socket.io'
+import mongoose from 'mongoose'
 
 import __dirname from './utils.js'
 import { router as productsRouter } from './routes/products.router.js'
 import { router as cartsRouter } from './routes/carts.router.js'
 import { router as viewsRouter } from './routes/views.router.js'
+import { chatRouter } from './routes/chat.router.js'
 
 const PORT = 8080
 
@@ -23,6 +25,7 @@ app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname, "views"))
 
+
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 const midlewareSocket = (req, res, next) => {
@@ -30,6 +33,9 @@ const midlewareSocket = (req, res, next) => {
     next()    
 }
 app.use('/', midlewareSocket, viewsRouter)
+
+// CHAT
+app.use('/chat', chatRouter)
 
 // para paginas no encontradas
 app.get('*', (req,res)=> {
@@ -39,12 +45,30 @@ app.get('*', (req,res)=> {
 const http = app.listen(PORT, (req,res)=>{
     console.log('escuchando')    
 })
+// Conexion a mongo db
+const connection = async () =>{
+    try {
+        await mongoose.connect("mongodb+srv://rominacelestegza:alex41701647@back53110.snwicy3.mongodb.net/?retryWrites=true&w=majority&appName=back53110")
+        console.log('Conectado con MongoDB')
+    } catch (err) {
+        console.log("Fallo en la conexion:", err.message)
+    }
+}
+connection()
 
+// socket
 io = new Server(http)
 
 io.on('connection', socket =>{
     console.log('nuevo cliente conectado', 'SOCKET es: ', socket.id)
-    io.on('nuevoProducto', data=>{
-        console.log('data es:', data)
+    socket.on('newProduct', data=> {
+        console.log('data de form es:', data)
+    })
+    socket.on("presentation", name => {
+        console.log(name)
+        socket.broadcast.emit("newMember", name)
+    })
+    socket.on("message", (name, message) => {
+        io.emit("newMessage", name, message)
     })
 })
