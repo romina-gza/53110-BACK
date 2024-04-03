@@ -50,7 +50,7 @@ const http = app.listen(PORT, (req,res)=>{
 // Conexion a mongo db
 const connection = async () =>{
     try {
-        await mongoose.connect("mongodb+srv://rominacelestegza:alex41701647@back53110.snwicy3.mongodb.net/?retryWrites=true&w=majority&appName=back53110")
+        await mongoose.connect("mongodb+srv://rominacelestegza:alex41701647@back53110.snwicy3.mongodb.net/?retryWrites=true&w=majority&appName=back53110&dbName=ecommerce")
         console.log('Conectado con MongoDB')
     } catch (err) {
         console.log("Fallo en la conexion:", err.message)
@@ -68,14 +68,14 @@ io.on('connection', socket =>{
         console.log('data de form es:', data)
     })
     
-    socket.on("presentation", user => {
+    socket.on("presentation", async user => {
         console.log(user)
-        socket.emit("history", messagesManager.getMessages())
+        socket.emit("history", await messagesManager.getMessages())
         socket.broadcast.emit("newMember", user)
     })
     
-    socket.on("message", (user, message) => {
-        messagesManager.saveMessages({user,message})
+    socket.on("message", async (user, message) => {
+        await messagesManager.saveMessages({user,message})
         io.emit("newMessage", user, message)
     })
 })
