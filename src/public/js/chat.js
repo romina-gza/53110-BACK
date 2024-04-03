@@ -5,22 +5,22 @@ const divMessages = document.getElementById("divMessages")
 Swal.fire({
     title:"Identifiquese",
     input:"text",
-    text:"Ingrese su name",
+    text:"Ingrese su nombre de usuario",
     inputValidator: (value)=>{
-        return !value && "Debe ingresar un name...!!!"
+        return !value && "Debe ingresar un nombre de usuario...!!!"
     },
     allowOutsideClick:false
 })
 
 .then( data => {
-    let name = data.value
-    console.log(name)
+    let user = data.value
+    console.log(user)
 
-    userName.innerHTML += name
+    userName.innerHTML += user
     message.focus()
 
     const socket = io()
-    socket.emit("presentation", name)
+    socket.emit("presentation", user)
     socket.on("newMember", name => {
         Swal.fire({
             text:`${name} se ha conectado...!!!`,
@@ -29,8 +29,14 @@ Swal.fire({
         })
     } )
 
-    socket.on("newMessage", (name, message)=> {
-        divMessages.innerHTML += `<strong>${name}</strong> dice: <i>${message}</i> <br>`
+    socket.on("history", messages =>{
+        messages.forEach( message => {
+            divMessages.innerHTML += `<strong>${message.user}</strong> dice: <i>${message.message}</i> <br>`
+        });
+    })
+
+    socket.on("newMessage", (user, message)=> {
+        divMessages.innerHTML += `<strong>${user}</strong> dice: <i>${message}</i> <br>`
     })
 
     message.addEventListener("keyup", e => {
@@ -39,7 +45,7 @@ Swal.fire({
         // console.log(e.target.value)
 
         if (e.code === "Enter" && e.target.value.trim().length>0 ) {
-            socket.emit("message", name, e.target.value.trim())
+            socket.emit("message", user, e.target.value.trim())
             e.target.value = ""
             e.target.focus()
         }

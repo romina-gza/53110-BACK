@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ChatManager from "../dao/chatManager.js";
+import messagesManager from "../dao/messagesManager.js";
 export const chatRouter = Router()
 
-let chat = new ChatManager()
+let chat = new messagesManager()
 
 chatRouter.get('/', async (req,res)=>{
     let conversation = await chat.getMessages()

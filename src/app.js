@@ -8,6 +8,8 @@ import __dirname from './utils.js'
 import { router as productsRouter } from './routes/products.router.js'
 import { router as cartsRouter } from './routes/carts.router.js'
 import { router as viewsRouter } from './routes/views.router.js'
+
+import MessagesManager from './dao/messagesManager.js'
 import { chatRouter } from './routes/chat.router.js'
 
 const PORT = 8080
@@ -58,17 +60,22 @@ connection()
 
 // socket
 io = new Server(http)
-
+const messagesManager = new MessagesManager()
 io.on('connection', socket =>{
     console.log('nuevo cliente conectado', 'SOCKET es: ', socket.id)
+    
     socket.on('newProduct', data=> {
         console.log('data de form es:', data)
     })
-    socket.on("presentation", name => {
-        console.log(name)
-        socket.broadcast.emit("newMember", name)
+    
+    socket.on("presentation", user => {
+        console.log(user)
+        socket.emit("history", messagesManager.getMessages())
+        socket.broadcast.emit("newMember", user)
     })
-    socket.on("message", (name, message) => {
-        io.emit("newMessage", name, message)
+    
+    socket.on("message", (user, message) => {
+        messagesManager.saveMessages({user,message})
+        io.emit("newMessage", user, message)
     })
 })
