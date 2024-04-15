@@ -1,17 +1,19 @@
 import fs from 'fs'
+import { productsModel } from './model/products.model.js'
 //import path from 'path'
 //import __dirname from '../utils.js'
 
 export default class ProductManager {
     constructor ( file ) {
-        this.path = file
+        //this.path = file
         //this.path = path.join(__dirname, file)
     }    
 
     addProducts = async ( title, description, thumbnails, price, stock, code, status, category ) => {
         try {
+            return await productsModel.create({ title, description, thumbnails, price, stock, code, status, category })
             // validar no repetir code 
-            let listProducts = await this.getProducts()
+            // ---> let listProducts = await this.getProducts()
             // console.log('list Products: ', listProducts)
             
             // let codeRepeat = listProducts.find(c => c.code === code)
@@ -42,10 +44,12 @@ export default class ProductManager {
 
     getProducts = async () => {
         try {
-            let data = await fs.promises.readFile( this.path, 'utf-8' )
-            return JSON.parse(data)
+            // let data = await fs.promises.readFile( this.path, 'utf-8' )
+            // return JSON.parse(data)
+            return await productsModel.find()
         } catch (err) {
-            return []
+            //return []
+            return err
         }
     }
 

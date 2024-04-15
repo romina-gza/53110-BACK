@@ -61,7 +61,7 @@ connection()
 // socket
 io = new Server(http)
 const messagesManager = new MessagesManager()
-io.on('connection', socket =>{
+io.on('connection', socket => {
     console.log('nuevo cliente conectado', 'SOCKET es: ', socket.id)
     
     socket.on('newProduct', data=> {

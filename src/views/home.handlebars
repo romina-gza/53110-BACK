@@ -5,16 +5,17 @@
 
 <section> 
     <div class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
-    {{#each product}}
+    
+    {{#each products}}
         <div class="card m-3" style="min-width:18rem; max-width: 18rem;">
-            <img src={{thumbnails.[0]}} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt="imagen" >
+            <img src={{thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt="imagen" >
             <div class="card-body">
             <h5 class="card-title"> {{title}}</h5>
-            <p class="card-text"> {{description}}</p>
-            <p>Price: {{price}}</p>
+            <p>Precio: {{price}}</p>
             <a href="#" class="btn btn-success">Buy!</a>
             </div>
         </div>        
     {{/each}}
+    
     </div>
 </section>
