@@ -6,12 +6,12 @@
 <section> 
     <div class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
     
-    {{#each products}}
+    {{#each payload}}
         <div class="card m-3" style="min-width:18rem; max-width: 18rem;">
-            <img src={{thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt="imagen" >
+            <img src={{this.thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt="imagen" >
             <div class="card-body">
-            <h5 class="card-title"> {{title}}</h5>
-            <p>Precio: {{price}}</p>
+            <h5 class="card-title"> {{this.title}}</h5>
+            <p>${{this.price}}</p>
             <a href="#" class="btn btn-success">Buy!</a>
             </div>
         </div>        
@@ -19,3 +19,9 @@
     
     </div>
 </section>
+    {{#if prevLink}}
+        página previa: <a href="{{prevLink}}">{{prevPage}}</a>
+    {{/if}}
+    {{#if nextLink}}
+    página siguiente: <a href="{{nextLink}}">{{nextPage}}</a>
+{{/if}}

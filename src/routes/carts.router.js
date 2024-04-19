@@ -12,13 +12,19 @@ let carts = new CartsManager(route)
 
 //products instance
 let pathFile = path.join(__dirname, ".", "data", "products.json")
-const products = new ProductManager(pathFile)
+const products = new ProductManager()
 
 router.post('/', async ( req, res ) => {
-    let newCart = await carts.createCart()
-
-    res.setHeader('Content-Type','application/json')
-    res.status(201).json( newCart )
+    try {
+        
+        let newCart = await carts.createCart()
+        console.log("newcart", newCart)
+        res.setHeader('Content-Type','application/json')
+        res.status(201).json( {payload: newCart} )
+    } catch (err) {
+        return err
+    }
+    
 })
 
 router.get('/:cid', async ( req, res ) => {

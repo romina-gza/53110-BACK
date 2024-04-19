@@ -22,21 +22,25 @@ router.get('/', async (req,res)=> {
         } else {
             sort = { }
         }
-
+    
+    if ( !category ) {
+    category = { }
+    } else {
         // Consulta si la categoría existe en MongoDB
-    const existingCategory = await productsModel.distinct('category', { category });
-
-    // Verifica si la categoría existe
-    if (!existingCategory || existingCategory.length === 0) {
-        return res.status(404).send(`La categoría '${category}' no existe`);
+        const existingCategory = await productsModel.distinct('category', { category });
+        // Verifica si la categoría existe
+        if ( !existingCategory || existingCategory.length === 0 ) {
+            return res.status(404).send(`La categoría '${category}' no existe`);
+        } 
+        category = {category}
     }
-
+    
         let { 
             docs: products,
             prevPage, nextPage, 
             hasPrevPage, hasNextPage, 
             totalPages  
-        } = await productsModel.paginate( {category} ?? { } , {limit: limit ?? 10, page: page ?? 1, sort: sort , lean: true})
+        } = await productsModel.paginate( category , {limit: limit ?? 10, page: page ?? 1, sort: sort , lean: true})
         
         res.setHeader("Content-Type", "text/html")
         res.status(200).render('home', {

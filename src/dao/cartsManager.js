@@ -1,29 +1,29 @@
 import fs from 'fs'
 
+import { cartsModel } from './model/carts.model.js'
+
 /* cada objeto representa un producto en el array de products */
 export default class CartsManager {
-    constructor( file ){
-        this.path = file
+    constructor(  ){
+        /* this.path = file */
     }
 
-    async createCart(product) {
+    async createCart(products) {
         try {
-            let listCarts = await this.getCarts()
+            //let listCarts = await this.getCarts()
 
             // id autogenerado
-            /* IGNORAR
-            Como el file.json puede llegar a tener productos sin id se pueden agregar más condicionales.
-            */
-            let id = 1
+            /* let id = 1
             let lengthListCarts = listCarts.length    
-            if (lengthListCarts > 0 ) id = listCarts[lengthListCarts - 1].id + 1
+            if (lengthListCarts > 0 ) id = listCarts[lengthListCarts - 1].id + 1 */
             //array de productos
-            console.log('product:', product)
-            let saveProduct = { id, product: [ /* ...product */ ] }
-            listCarts.push(saveProduct)
+
+           // let saveProduct = { id, product: [ /* ...product */ ] }
+            //listCarts.push(saveProduct) 
 
             //guardar producto
-            await fs.promises.writeFile(this.path,JSON.stringify(listCarts, null, 4))
+            // await fs.promises.writeFile(this.path,JSON.stringify(listCarts, null, 4))
+            return await cartsModel.create(products)
         } catch (err) {
             return err
         }

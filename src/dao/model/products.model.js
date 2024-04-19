@@ -10,7 +10,12 @@ const productsSchema = new mongoose.Schema(
             unique: true
         },
         description: String, 
-        thumbnails: String, 
+        thumbnails: [
+            {
+                type: String,
+                default: "https://craftypixels.com/placeholder-image/250x200/7030f0/2d1b52&text=250x200"
+            }
+        ], 
         price: Number, 
         stock: Number, 
         code: Number,
