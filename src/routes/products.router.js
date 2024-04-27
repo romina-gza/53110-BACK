@@ -1,7 +1,6 @@
 import { Router } from "express"
 import path from "path"
 
-
 import __dirname from "../utils.js"
 import ProductManager from "../dao/productManager.js"
 
@@ -10,11 +9,11 @@ export const router = Router()
 
 let pathFile = path.join(__dirname, ".", "data", "products.json")
 
-const list = new ProductManager(pathFile)
+const listProducts = new ProductManager()
 
 router.get('/', async (req, res) => {
     let { skip, limit } = req.query
-    let products = await list.getProducts()    
+    let products = await listProducts.getProducts()    
     
     if ( skip > 0 ) products = products.slice(skip)
     
@@ -29,7 +28,7 @@ router.get('/:pid', async (req, res) => {
     if (isNaN(pid)) {
         return res.status(400).json({"message": "El id debe ser un número"})
     }
-    let products = await list.getProducts()
+    let products = await listProducts.getProducts()
     
     let findProducts = products.find(obj => obj.id == pid)
 
@@ -55,9 +54,9 @@ router.post('/', async (req, res) => {
     // no logro hacer que funcione status.trim() para que no tome "status": ""
     status = status !==  undefined || '' ? status : true
     // no repetir code
-    let listProducts = await list.getProducts()
+    let list = await listProducts.getProducts()
 
-    let codeRepeat = listProducts.find(c => c.code == code)
+    let codeRepeat = list.find(c => c.code == code)
 
     if (codeRepeat) {
         res.setHeader('Content-Type', 'application/json')
@@ -68,20 +67,22 @@ router.post('/', async (req, res) => {
         res.setHeader('Content-Type', 'application/json')
         return res.status(400).json( { "message": 'todos los campos con "*" deben ser completados.' } )
     }  
-    await list.addProducts( title, description, thumbnails, price, stock, code, status, category )  
+    await listProducts.addProducts( title, description, thumbnails, price, stock, code, status, category )  
     
     res.setHeader('Content-Type', 'application/json')
     res.status(201).json( { title, description, thumbnails, price, stock, code, status, category } )
 })
-// PUT
+// PUT actualizar los campos
 router.put('/:pid', async (req, res) => {
-    let pid = Number(req.params.pid)
+    /* let pid = Number(req.params.pid)
     
     if (isNaN(pid)) {
         return res.status(400).json({"message": "El id debe ser un número"})
-    }
+    } */
     try {    
-        await list.updateProducts(pid, req.body)
+        const { pid } = req.params
+        await listProducts.updateProducts(pid, req.body)
+        
         res.setHeader('Content-Type', 'application/json')
         res.status(200).json( { "message": "solcitud exitosa!" } )
     } catch (err) {
@@ -92,10 +93,10 @@ router.put('/:pid', async (req, res) => {
     }
 })
 
-//DELETE
+//DELETE - eliminar producto
 router.delete('/:pid', async (req,res) => {
-    let pid = Number(req.params.pid)
-    let listProducts = await list.getProducts()
+    /* let pid = Number(req.params.pid)
+    let list = await listProducts.getProducts()
 
     // verifica que sea numero
     if (isNaN(pid)) {
@@ -104,7 +105,7 @@ router.delete('/:pid', async (req,res) => {
     }
     
     // busca id si no existe devuelve mensaje
-    let notFound= listProducts.find(obj => obj.id === pid)
+    let notFound= list.find(obj => obj.id === pid)
     if (!notFound) {
         res.setHeader('Content-Type', 'application/json')
         return res.status(400).json({"message": "El id no existe"})
@@ -113,5 +114,14 @@ router.delete('/:pid', async (req,res) => {
 
     await list.deleteProducts(pid)
         res.setHeader('Content-Type', 'application/json')
-        res.status(200).json( { "message": "solcitud exitosa!" } )
-})
+        res.status(200).json( { "message": "solcitud exitosa!" } ) */
+    try {
+        return await listProducts.deleteProducts(pid)
+    } catch (err) {
+        return err
+    }
+}
+
+// 
+
+)

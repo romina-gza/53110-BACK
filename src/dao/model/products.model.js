@@ -17,13 +17,21 @@ const productsSchema = new mongoose.Schema(
             }
         ], 
         price: Number, 
+        status: {
+            type: Boolean,
+            default: true
+        },
         stock: Number, 
-        code: Number,
+        code: {
+            type: Number,
+            unique: true
+        },
         category: String
     },
     {
         // marca fecha de momento de creacion, actualizacion
-        timestamps: true
+        timestamps: true,
+        versionKey: false
     }
 )
 

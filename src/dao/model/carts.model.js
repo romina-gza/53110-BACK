@@ -6,9 +6,9 @@ const cartsSchema = new mongoose.Schema(
         products: [
             {
                 productId: {
-                    type: String,
-                    /* type: mongoose.Schema.Types.ObjectId,
-                    ref: 'products', */ 
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'products',
+                    required: true
                 },
                 quantity: {
                     type: Number,
@@ -20,7 +20,8 @@ const cartsSchema = new mongoose.Schema(
     },
     {
         // marca fecha de momento de creacion, actualizacion
-        timestamps: true
+        timestamps: true,
+        versionKey: false
     }
 )
 

@@ -1,0 +1,54 @@
+<h1>Productos</h1>
+
+<section> 
+    <div class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
+    
+    {{#each payload}}
+        <div class="card m-3" id="{{this._id}}" style="min-width:18rem; max-width: 18rem;">
+            <img src={{this.thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt="imagen" >
+            <div class="card-body">
+            <h5 class="card-title"> {{this.title}}</h5>
+            <p>${{this.price}}</p>
+            <a href="#" class="btn btn-success">Buy!</a>
+            </div>
+        </div>        
+    {{/each}}
+    
+    </div>
+</section>
+
+{{!--     {{#if prevLink}}
+        página previa: <li class="page-item"></li><a href="{{prevLink}}">{{prevPage}}</a></li>
+    {{/if}}
+    {{#if nextLink}}
+    página siguiente: <a href="{{nextLink}}">{{nextPage}}</a>
+
+{{/if}} --}}
+<nav aria-label="navegacion de paginas">
+
+    <ul class="pagination justify-content-center">
+        {{#if prevLink}}
+        <li class="page-item">
+            <a class="page-link" href="{{prevLink}}">Pag. Anterior</a>
+        </li>
+        {{/if}}
+        {{#if page}}
+        <li class="page-item">
+            <a class="page-link">{{page}}</a>
+        </li>
+        {{/if}}
+        {{#if nextLink}}
+        <li class="page-item">
+            <a class="page-link" href="{{nextLink}}">Pag. Siguiente</a>
+        </li>
+        {{/if}}
+        {{#if totalPages}}
+        <li class="page-item">
+            <a class="page-link" href="{{totalPages}}">Última Pag.</a>
+        </li>
+        {{/if}}
+    </ul>
+
+</nav>
+
+<script src="/js/product.js"></script>

@@ -9,9 +9,8 @@ export default class ProductManager {
         //this.path = path.join(__dirname, file)
     }    
 
-    addProducts = async ( title, description, thumbnails, price, stock, code, status, category ) => {
+    async addProducts ( title, description, thumbnails, price, stock, code, status, category ) {
         try {
-            return await productsModel.create({ title, description, thumbnails, price, stock, code, status, category })
             // validar no repetir code 
             // ---> let listProducts = await this.getProducts()
             // console.log('list Products: ', listProducts)
@@ -28,7 +27,7 @@ export default class ProductManager {
             }    */
             
             // id incrementable
-            let id = 1
+            /* let id = 1
             let lengthListProducts = listProducts.length    
             if (lengthListProducts > 0 ) id = listProducts[lengthListProducts - 1].id + 1
             
@@ -37,12 +36,14 @@ export default class ProductManager {
             listProducts.push(product)
     
             return await fs.promises.writeFile(this.path, JSON.stringify(listProducts, null, 5), 'utf-8')
+             */
+            return await productsModel.create({ title, description, thumbnails, price, stock, code, status, category })
         } catch (err) {
             return err
         }
     }
 
-    getProducts = async () => {
+    async getProducts() {
         try {
             // let data = await fs.promises.readFile( this.path, 'utf-8' )
             // return JSON.parse(data)
@@ -53,24 +54,24 @@ export default class ProductManager {
         }
     }
 
-    getProductsById = async (id) => {
+    async getProductsById(id){
         try {
-            let listProducts = await this.getProducts()
+            /* let listProducts = await this.getProducts()
             let idExist = listProducts.find(obj => obj.id === id )
             if (idExist) {
                 console.log('existe:', idExist)
                 return idExist  
             }
-            else throw new Error(' no existe el id: ', id)
+            else throw new Error(' no existe el id: ', id) */
+            return await productsModel.findById({_id: id})
         } catch (err) {
-            console.log("hubo un error al buscar el id", id)
             return err
         }
     }
 
-    updateProducts = async ( id, newProducts ) => {
+    async updateProducts( id, newProducts ){
         try {
-            let listProducts = await this.getProducts()
+            /* let listProducts = await this.getProducts()
 
             let findIndex = listProducts.findIndex(obj => obj.id === id)
             if (findIndex !== -1) {
@@ -79,30 +80,23 @@ export default class ProductManager {
                 await fs.promises.writeFile( this.path, JSON.stringify( listProducts, null, 5 ), 'utf-8' )
             } else {
                 throw new Error('El id no es válido o no existe.')
-            }
+            } */
+            console.log("newProducts", newProducts)
+            return await productsModel.findByIdAndUpdate({_id: id}, {newProducts}, {new: true})
         } catch (err) {
             return err
         }
     }
 
-    deleteProducts = async (id) => {
+    async deleteProducts (id) {
         try {
-            let listProducts = await this.getProducts()
+            /* let listProducts = await this.getProducts()
             listProducts = listProducts.filter(obj => obj.id !== id)
-            await fs.promises.writeFile(this.path, JSON.stringify(listProducts, null, 5),'utf-8')
-
+            await fs.promises.writeFile(this.path, JSON.stringify(listProducts, null, 5),'utf-8') */
+            return await productsModel.findByIdAndDelete({_id: id})
         } catch (err) {
             return err
         }
     }
 
 }
-
-// let enero = new ProductManager('test.json')
-// enero.getProducts()
-// enero.getProductsById(3)
-// enero.deleteProducts(2)
-// enero.updateProducts(7, { price: 100000, stock: 125 , thumbnails: 'NUEVO link ' } )
-
-// //enero.addProducts('title','description here', 'link here', 12 ) 
-// enero.addProducts('title','description here', 'link here', 12,13,19) 
