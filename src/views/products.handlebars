@@ -1,5 +1,16 @@
 <h1>Productos</h1>
 
+<section>
+    {{#if payload}}
+        {{#if this.user.name}}
+            <h2>Bienvenido {{this.user.name}}</h2>
+        {{else}}
+            <h2>Bienvenidos</h2>
+        {{/if}}
+    {{/if}}
+
+</section>
+
 <section> 
     <div class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
     

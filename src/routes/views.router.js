@@ -5,6 +5,8 @@ import ProductManager from "../dao/productManager.js"
 import path from "path"
 
 import CartsManager from "../dao/cartsManager.js";
+import { auth } from "../middleware/auth.js";
+import { verifyRole } from "../middleware/verifyRole.js";
 let pathFile = path.join(__dirname, ".", "data", "products.json")
 const list = new ProductManager(pathFile)
 const carts = new CartsManager() 
@@ -79,8 +81,10 @@ router.get('/chat', (req, res)=>{
     // res.status(200).redirect("realTimeProducts", {  }) 
 }) */
 
-router.get("/products", async (req, res)=> {
+router.get("/products", auth, async (req, res)=> {
     try { 
+        let user = req.session.existUser
+        console.log("user name prod: ", user)
         let { limit, page, category, sort } = req.query
         // precio ascendente o descendente
         if ( sort === "a" ) {
@@ -112,6 +116,7 @@ router.get("/products", async (req, res)=> {
 
         res.setHeader("Content-Type", "text/html")
         res.status(200).render('products', {
+            user: user,
             status: "success",
             payload: products,
             prevPage: prevPage,
@@ -155,3 +160,17 @@ router.get("/carts/:cid", async (req, res)=> {
         res.status(500).json({ message: "Error interno del servidor" });
     }
 })
+
+router.get("/register", (req, res) => {
+    res.status(200).render("register")
+})
+
+router.get("/login", (req, res) => {
+    res.status(200).render("login")
+})
+
+router.get("/profile", auth, (req, res) => {
+    let user = req.session.existUser
+    res.status(200).render("profile", { user })
+})
+

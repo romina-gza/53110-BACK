@@ -3,6 +3,8 @@ import handlebars from 'express-handlebars'
 import path from "path"
 import { Server } from 'socket.io'
 import mongoose from 'mongoose'
+import session from 'express-session'
+import ConnectMongo from 'connect-mongo'
 
 import __dirname from './utils.js'
 import { router as productsRouter } from './routes/products.router.js'
@@ -11,6 +13,7 @@ import { router as viewsRouter } from './routes/views.router.js'
 
 import MessagesManager from './dao/messagesManager.js'
 import { chatRouter } from './routes/chat.router.js'
+import { routerSession } from './routes/sessions.router.js'
 
 const PORT = 8080
 
@@ -21,7 +24,19 @@ app.use( express.json() )
 app.use( express.urlencoded( { extended: true } ) )
 
 app.use( express.static( path.join( __dirname, "public" ) ) )
-
+app.use(session(
+    {
+        secret: "topSecret",
+        resave: true,
+        saveUninitialized: true,
+        store: ConnectMongo.create(
+            {
+                mongoUrl: "mongodb+srv://rominacelestegza:alex41701647@back53110.snwicy3.mongodb.net/?retryWrites=true&w=majority&appName=back53110&dbName=ecommerce",
+                ttl: 6000
+            }
+        )
+    }
+))
 //config handlebars
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
@@ -30,6 +45,8 @@ app.set("views", path.join(__dirname, "views"))
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
+app.use('/api/sessions', routerSession)
+
 const midlewareSocket = (req, res, next) => {
     req.io = io
     next()    

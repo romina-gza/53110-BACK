@@ -42,32 +42,6 @@ export default class CartsManager {
         }
     }
 
-/*     async getcartsById(id) {
-        try { */
-            // id: 6622dd37eb42d0152cb1fd13
-
-            /* let cartProducts = await this.getCarts()
-            let idExist = cartProducts.find(obj => obj.id == id )
-            if (idExist) {
-                console.log('existe:', idExist)
-                return idExist  
-            } */
-           // else throw new Error(`El id: ${id} no existe.`)
-/*             console.log("id: ", id)
-            return await cartsModel.findById({_id: id}).populate('products.productId')
-        } catch (err) {
-            
-            return err
-        }
-    } */
-/*     async getcartsById(id) {
-        try {
-            const cart = await cartsModel.findById(id).lean().select('products').populate({path: 'products.productId'});
-            return cart.products;
-        } catch (err) {
-            return err;
-        }
-    } */
     async getcartsById(id) {
         try {
             const cart = await cartsModel.findOne({ _id: id }).lean().select('products').populate('products.productId');
