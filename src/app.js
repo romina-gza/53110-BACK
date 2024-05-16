@@ -5,6 +5,8 @@ import { Server } from 'socket.io'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import ConnectMongo from 'connect-mongo'
+import { initializesPassport } from './config/passport.config.js'
+import passport from 'passport'
 
 import __dirname from './utils.js'
 import { router as productsRouter } from './routes/products.router.js'
@@ -37,6 +39,9 @@ app.use(session(
         )
     }
 ))
+initializesPassport()
+app.use(passport.initialize())
+app.use(passport.session())
 //config handlebars
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")

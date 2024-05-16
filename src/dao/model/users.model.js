@@ -17,7 +17,8 @@ const usersSchema = new mongoose.Schema(
         }
     },
     {
-        versionKey: false
+        versionKey: false,
+        strict: false
     }
 )
 

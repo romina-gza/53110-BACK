@@ -2,60 +2,27 @@ import { Router } from "express"
 import { UsersManager } from "../dao/usersManager.js"
 
 import { createHash, validatePassword } from "../utils.js"
+import passport from "passport"
+import { auth } from "../middleware/auth.js"
 
 export const routerSession = Router()
 
 let usersManager = new UsersManager()
-
-routerSession.post('/register', async (req, res)=> {
-    let { name, email, password } = req.body
-    if ( !name || !email || !password ) {
-        res.setHeader('Content-Type', 'application/json')
-        return res.status(400).json({error: 'Complete todos los datos.'})
-    }
-    let exist = await usersManager.getBy({email})
-    if (exist) {
-        res.setHeader('Content-Type', 'application/json')
-        return res.status(400).json({error: `Este usuario ya existe: ${email}`})
-    }
-    password = createHash(password)
-    console.log('psw reg: ', password)
-    try {
-        //let newUser = await usersManager.createUser( { name, email, password } )
-        await usersManager.createUser( { name, email, password } )
-
-        res.setHeader('Content-Type', 'application/text')
-        //return res.status(201).json({payload: "Usuario creado", newUser})
-        return res.redirect('http://localhost:8080/login')
-
-    } catch (err) {
-        res.setHeader('Content-Type', 'application/json')
-        return res.status(400).json({error: `Error en el servidor. Error de registro: ${err.message}`})
-    }
+routerSession.get('/registerError', (req, res)=> {
+    return res.redirect('/register?err=Error al momento de registrarse')
+})
+routerSession.post('/register', passport.authenticate('register', {failureRedirect: '/api/sessions/registerError'} ), (req, res)=> {
+    console.log('user req:', req.user)
+    return res.redirect('/login')
 })
 
-routerSession.post('/login', async (req, res)=> {
-    let { email, password } = req.body
-    if ( !email || !password ) {
-        res.setHeader('Content-Type', 'application/json')
-        return res.status(400).json({error: 'Complete todos los datos.'})
-    }
-    let existUser = await usersManager.getBy({email})
+routerSession.get('loginError', (req, res)=> {
+    return res.status(400).json({err: 'Error al momento de logearse'})
+})
 
-    if (!existUser) {
-        res.setHeader('Content-Type', 'application/json')
-        return res.status(401).json({error: `Email inválido: ${email}`})
-    }
-    // login admin
-    const eCoder = "adminCoder@coder.com"
-    const psw = "adminCod3r123"
-    if (email === eCoder && password === psw) {
-        existUser.role = 'admin'
-    }
+routerSession.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError' }), async (req, res)=> {
     
-    // Verificar la contraseña bcrypt
-    if (!validatePassword(existUser, password)) res.status(401).json({error: "Contraseña incorrecta"})
-    
+    let existUser = req.user
     delete existUser.password
     req.session.existUser = existUser
     try {
@@ -83,4 +50,24 @@ routerSession.get("/logout", (req, res) => {
     //res.status(200).json({ message: "Logout exitoso" })
     return res.redirect('http://localhost:8080/login')
 
+})
+
+// con github
+routerSession.get('/github', passport.authenticate('github', {}), (req, res)=> {})
+routerSession.get('/sessionsGithub', passport.authenticate('github', {failureRedirect: '/api/sessions/errorFromGithub'}), (req, res) => {
+    req.session.existUser = req.user
+    console.log('req. user github: ', req.user)
+    res.setHeader('Content-Type', 'application/json')
+    /* return res.status(200).json({
+        payload: 'login correcto',
+        user: req.user
+    }) */
+    return res.redirect('/products')
+})
+routerSession.get('/errorFromGithub', (req, res)=> {
+    res.setHeader('Content-Type', 'application/json')
+    return res.status(500).json({
+        err: 'Error en el servidor, por favor intente nuevamente.',
+        detail: 'Falló la autenticación con Github'
+    })
 })

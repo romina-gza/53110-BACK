@@ -6,7 +6,7 @@ import path from "path"
 
 import CartsManager from "../dao/cartsManager.js";
 import { auth } from "../middleware/auth.js";
-import { verifyRole } from "../middleware/verifyRole.js";
+
 let pathFile = path.join(__dirname, ".", "data", "products.json")
 const list = new ProductManager(pathFile)
 const carts = new CartsManager() 

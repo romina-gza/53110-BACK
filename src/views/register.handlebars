@@ -1,10 +1,17 @@
 <section>
     <h2>Registro</h2>
+    
     <form action="/api/sessions/register" method="post">
+        {{#if err}}
+            <p style="color:rgb(228, 69, 69);">
+                El error: {{err}}
+            </p>
+        {{/if}}
         <input type="text" name="name" id="name" placeholder="Nombre">
         <input type="email" name="email" id="email" placeholder="Email">
         <input type="password" name="password" id="password" placeholder="Contraseña">
         
         <input type="submit" value="Registrarme">
+        
     </form>
 </section>
