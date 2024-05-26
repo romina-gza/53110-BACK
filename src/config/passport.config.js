@@ -73,13 +73,13 @@ export const initializesPassport = () => {
         'github',
         new github.Strategy(
             {
-                clientID: 'cid',
-                clientSecret: 'cs',
+                clientID: 'Iv23liM5naHfqjpYa9xu',
+                clientSecret: '38affedd579ba26454b55f2c4699d05d2a723e76',
                 callbackURL: 'http://localhost:8080/api/sessions/sessionsGithub'
             },
             async function( accessToken, refreshToken, profile, done ) {
                 try {
-                    console.log('profile: ', profile)
+                   // console.log('profile: ', profile)
                     let name = profile._json.name
                     let email = profile._json.email
 

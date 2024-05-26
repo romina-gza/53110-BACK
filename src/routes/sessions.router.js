@@ -56,7 +56,7 @@ routerSession.get("/logout", (req, res) => {
 routerSession.get('/github', passport.authenticate('github', {}), (req, res)=> {})
 routerSession.get('/sessionsGithub', passport.authenticate('github', {failureRedirect: '/api/sessions/errorFromGithub'}), (req, res) => {
     req.session.existUser = req.user
-    console.log('req. user github: ', req.user)
+//    console.log('req. user github: ', req.user)
     res.setHeader('Content-Type', 'application/json')
     /* return res.status(200).json({
         payload: 'login correcto',
