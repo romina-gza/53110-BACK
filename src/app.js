@@ -15,7 +15,7 @@ import { router as viewsRouter } from './routes/views.router.js'
 
 import MessagesManager from './dao/messagesManager.js'
 import { chatRouter } from './routes/chat.router.js'
-import { routerSession } from './routes/sessions.router.js'
+import { sessionsRouter } from './routes/sessions.router.js'
 
 const PORT = 8080
 
@@ -50,7 +50,7 @@ app.set("views", path.join(__dirname, "views"))
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
-app.use('/api/sessions', routerSession)
+app.use('/api/sessions', sessionsRouter)
 
 const midlewareSocket = (req, res, next) => {
     req.io = io

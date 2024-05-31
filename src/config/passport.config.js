@@ -17,8 +17,8 @@ export const initializesPassport = () => {
             },
             async ( req, username, password, done ) => {
                 try {
-                    let { name } = req.body
-                    if ( !name ) {
+                    let { first_name } = req.body
+                    if ( !first_name ) {
                     return done(null, false)
                     }
                     let exist = await usersManager.getBy({ email: username });
@@ -27,7 +27,7 @@ export const initializesPassport = () => {
                     }
                     password = createHash(password);
 
-                    let newUser = await usersManager.createUser({ name, email: username , password });
+                    let newUser = await usersManager.createUser({ first_name, email: username , password });
                     return done(null, newUser)
                 } catch (err) {
                     return done(err)
@@ -80,13 +80,13 @@ export const initializesPassport = () => {
             async function( accessToken, refreshToken, profile, done ) {
                 try {
                    // console.log('profile: ', profile)
-                    let name = profile._json.name
+                    let first_name = profile._json.name
                     let email = profile._json.email
 
                     let existUser = await usersManager.getBy({email})
                     
                     if (!existUser) {
-                        await usersManager.createUser({name, email, profileGitHub: profile})
+                        await usersManager.createUser({first_name, email, profileGitHub: profile})
                     }
                     return done(null, existUser)
                 } catch (err) {
@@ -96,7 +96,7 @@ export const initializesPassport = () => {
         )
     )
 
-    // paso add.. solo si trabajo con session serealizacion y descerealización
+    // paso adicional; solo si trabajo con session serealizacion y descerealización
     passport.serializeUser( ( user, done ) => {
         return done(null, user._id)
     })

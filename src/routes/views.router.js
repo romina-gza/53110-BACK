@@ -14,48 +14,51 @@ export const router = Router()
 
 router.get('/', async (req,res)=> {
     try {
-        let { limit, page, category, sort } = req.query
-        // precio ascendente o descendente
-        if ( sort === "a" ) {
-            sort = { price: -1 }
-        } else if ( sort === "d" ) {
-            sort = { price: 1 }
+        let { limit, page, category, sortOption } = req.query;
+        let sort = { price: 1 }
+        // Precio ascendente o descendente
+        if (sortOption === "a") {
+            sort = { price: 1 };
+        } else if (sortOption === "d") {
+            sort = { price: -1 };
         } else {
-            sort = { }
+            sortOption = 'a'
         }
-    
-    if ( !category ) {
-    category = { }
-    } else {
-        // Consulta si la categoría existe en MongoDB
-        const existingCategory = await productsModel.distinct('category', { category });
-        // Verifica si la categoría existe
-        if ( !existingCategory || existingCategory.length === 0 ) {
-            return res.status(404).send(`La categoría '${category}' no existe`);
-        } 
-        category = {category}
-    }
-    let { 
-        docs: products,
-        prevPage, nextPage, 
-        hasPrevPage, hasNextPage, 
-        totalPages   
-    } = await productsModel.paginate( category , {limit: limit ?? 3, page: page ?? 1, sort: sort , lean: true})
 
-    const queryParams = new URLSearchParams({ limit, category, sort }).toString()
+        let categoryQuery = {};
+        if (category) {
+            const existingCategory = await productsModel.distinct('category', { category });
+            if (!existingCategory || existingCategory.length === 0) {
+                return res.status(404).send(`La categoría '${category}' no existe`);
+            }
+            categoryQuery = { category };
+        }
+
+        let {
+            docs: products,
+            prevPage, nextPage,
+            hasPrevPage, hasNextPage,
+            totalPages
+        } = await productsModel.paginate(categoryQuery, { limit: limit ?? 10, page: page ?? 1, sort: sort, lean: true });
+
+        const queryParams = new URLSearchParams({ limit, sortOption });
+
+        if (category) {
+            queryParams.append('category', category);
+        }
 
         res.setHeader("Content-Type", "text/html")
         res.status(200).render('home', {
             status: "success",
             payload: products,
-            totalPages: `http://localhost:8080/products/?page=${totalPages}&${queryParams}`,
             prevPage: prevPage,
             nextPage: nextPage,
-            page: page,
+            page: page ?? 1,
             hasPrevPage: hasPrevPage,
             hasNextPage: hasNextPage,
-            prevLink: hasPrevPage ? `http://localhost:8080/?page=${prevPage}&${queryParams}` : null ,
-            nextLink: hasNextPage ? `http://localhost:8080/?page=${nextPage}&${queryParams}` : null
+            prevLink: hasPrevPage ? `http://localhost:8080?page=${nextPage}&${queryParams.toString()}` : null ,
+            nextLink: hasNextPage ? `http://localhost:8080?page=${nextPage}&${queryParams.toString()}` : null,
+            totalPages: `http://localhost:8080?page=${totalPages}&${queryParams.toString()}`
             })
     } catch (err) {
         res.setHeader('Content-Type','application/json')
@@ -87,8 +90,7 @@ router.get("/products", auth, async (req, res) => {
         let user = req.session.existUser;
         //console.log("user d: ", user)
         let { limit, page, category, sortOption } = req.query;
-        let sort = { price: 1 }; // Default sorting
-
+        let sort = { price: 1 }
         // Precio ascendente o descendente
         if (sortOption === "a") {
             sort = { price: 1 };
@@ -112,9 +114,9 @@ router.get("/products", auth, async (req, res) => {
             prevPage, nextPage,
             hasPrevPage, hasNextPage,
             totalPages
-        } = await productsModel.paginate(categoryQuery, { limit: limit ?? 10, page: page ?? 1, sort: sort, lean: true });
+        } = await productsModel.paginate(categoryQuery, { limit: limit ?? 5, page: page ?? 1, sort: sort, lean: true });
 
-        const queryParams = new URLSearchParams({ limit, sortOption });
+        const queryParams = new URLSearchParams({ limit: limit ?? 5, sortOption });
         console.log('sort: ', sort);
         console.log('sort option: ', sortOption)
         if (category) {
@@ -134,7 +136,7 @@ router.get("/products", auth, async (req, res) => {
             prevLink: hasPrevPage ? `http://localhost:8080/products?page=${prevPage}&${queryParams.toString()}` : null,
             nextLink: hasNextPage ? `http://localhost:8080/products?page=${nextPage}&${queryParams.toString()}` : null,
             totalPages: `http://localhost:8080/products?page=${totalPages}&${queryParams.toString()}`
-        });
+        })
     } catch (err) {
         res.setHeader('Content-Type', 'application/json');
         res.status(500).json({ message: 'Error interno del servidor' });

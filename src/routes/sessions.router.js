@@ -5,22 +5,22 @@ import { createHash, validatePassword } from "../utils.js"
 import passport from "passport"
 import { auth } from "../middleware/auth.js"
 
-export const routerSession = Router()
+export const sessionsRouter = Router()
 
 let usersManager = new UsersManager()
-routerSession.get('/registerError', (req, res)=> {
+sessionsRouter.get('/registerError', (req, res)=> {
     return res.redirect('/register?err=Error al momento de registrarse')
 })
-routerSession.post('/register', passport.authenticate('register', {failureRedirect: '/api/sessions/registerError'} ), (req, res)=> {
+sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect: '/api/sessions/registerError'} ), (req, res)=> {
     console.log('user req:', req.user)
     return res.redirect('/login')
 })
 
-routerSession.get('loginError', (req, res)=> {
+sessionsRouter.get('loginError', (req, res)=> {
     return res.status(400).json({err: 'Error al momento de logearse'})
 })
 
-routerSession.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError' }), async (req, res)=> {
+sessionsRouter.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError' }), async (req, res)=> {
     
     let existUser = req.user
     delete existUser.password
@@ -35,7 +35,7 @@ routerSession.post('/login', passport.authenticate('login', { failureRedirect: '
     }
 })
 
-routerSession.get("/logout", (req, res) => {
+sessionsRouter.get("/logout", (req, res) => {
     req.session.destroy(e => {
             if ( e ) {
                 res.setHeader('Content-Type', 'application/json')
@@ -53,8 +53,8 @@ routerSession.get("/logout", (req, res) => {
 })
 
 // con github
-routerSession.get('/github', passport.authenticate('github', {}), (req, res)=> {})
-routerSession.get('/sessionsGithub', passport.authenticate('github', {failureRedirect: '/api/sessions/errorFromGithub'}), (req, res) => {
+sessionsRouter.get('/github', passport.authenticate('github', {}), (req, res)=> {})
+sessionsRouter.get('/sessionsGithub', passport.authenticate('github', {failureRedirect: '/api/sessions/errorFromGithub'}), (req, res) => {
     req.session.existUser = req.user
 //    console.log('req. user github: ', req.user)
     res.setHeader('Content-Type', 'application/json')
@@ -64,10 +64,19 @@ routerSession.get('/sessionsGithub', passport.authenticate('github', {failureRed
     }) */
     return res.redirect('/products')
 })
-routerSession.get('/errorFromGithub', (req, res)=> {
+sessionsRouter.get('/errorFromGithub', (req, res)=> {
     res.setHeader('Content-Type', 'application/json')
     return res.status(500).json({
         err: 'Error en el servidor, por favor intente nuevamente.',
         detail: 'Falló la autenticación con Github'
     })
+})
+
+sessionsRouter.get('/current', auth, (req, res) => {
+    try {
+        let user = req.session.existUser
+        res.status(200).render("current", { user })
+    } catch (err) {
+        return err
+    }
 })

@@ -16,7 +16,8 @@ const cartsSchema = new mongoose.Schema(
                     required: true
                 }
             }
-        ]
+        ],
+        totalPrice: { type: Number, required: true }
     },
     {
         // marca fecha de momento de creacion, actualizacion
