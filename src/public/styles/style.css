@@ -1,4 +1,8 @@
 h1,h2,h3 {
-    color: burlywood;
-    font-size: medium
+    font-size: 1.6rem;
+    color: #39187a;
+}
+a {
+    text-decoration: none;
+    color: black;
 }

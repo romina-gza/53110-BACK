@@ -16,8 +16,9 @@ import { router as viewsRouter } from './routes/views.router.js'
 import MessagesManager from './dao/messagesManager.js'
 import { chatRouter } from './routes/chat.router.js'
 import { sessionsRouter } from './routes/sessions.router.js'
+import { config } from './config/config.js'
 
-const PORT = 8080
+const PORT = config.PORT
 
 const app = express()
 let io;
@@ -28,12 +29,12 @@ app.use( express.urlencoded( { extended: true } ) )
 app.use( express.static( path.join( __dirname, "public" ) ) )
 app.use(session(
     {
-        secret: "topSecret",
+        secret: config.SESSION_SECRET,
         resave: true,
         saveUninitialized: true,
         store: ConnectMongo.create(
             {
-                mongoUrl: "mongodb+srv://rominacelestegza:alex41701647@back53110.snwicy3.mongodb.net/?retryWrites=true&w=majority&appName=back53110&dbName=ecommerce",
+                mongoUrl: config.MONGO_URL,
                 ttl: 6000
             }
         )
@@ -72,7 +73,7 @@ const http = app.listen(PORT, (req,res)=>{
 // Conexion a mongo db
 const connection = async () =>{
     try {
-        await mongoose.connect("mongodb+srv://rominacelestegza:alex41701647@back53110.snwicy3.mongodb.net/?retryWrites=true&w=majority&appName=back53110&dbName=ecommerce")
+        await mongoose.connect(config.MONGO_URL)
         console.log('Conectado con MongoDB')
     } catch (err) {
         console.log("Fallo en la conexion:", err.message)

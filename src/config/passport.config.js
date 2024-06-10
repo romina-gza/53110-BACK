@@ -4,6 +4,7 @@ import github from "passport-github2"
 
 import { UsersManager } from "../dao/usersManager.js"
 import { createHash, validatePassword } from "../utils.js"
+import { config } from "./config.js"
 
 const usersManager = new UsersManager()
 
@@ -51,8 +52,8 @@ export const initializesPassport = () => {
                         return done(null, false)
                     }
                     // login admin
-                    const eCoder = "adminCoder@coder.com"
-                    const psw = "adminCod3r123"
+                    const eCoder = config.EUS_AD
+                    const psw = config.PA_AD
                     if (username === eCoder && password === psw) {
                         existUser.role = 'admin'
                     }
@@ -73,9 +74,9 @@ export const initializesPassport = () => {
         'github',
         new github.Strategy(
             {
-                clientID: 'Iv23liM5naHfqjpYa9xu',
-                clientSecret: '38affedd579ba26454b55f2c4699d05d2a723e76',
-                callbackURL: 'http://localhost:8080/api/sessions/sessionsGithub'
+                clientID: config.GITHUB_CID,
+                clientSecret: config.GITHUB_CS,
+                callbackURL: config.GITHUB_CURL
             },
             async function( accessToken, refreshToken, profile, done ) {
                 try {

@@ -117,8 +117,7 @@ router.get("/products", auth, async (req, res) => {
         } = await productsModel.paginate(categoryQuery, { limit: limit ?? 5, page: page ?? 1, sort: sort, lean: true });
 
         const queryParams = new URLSearchParams({ limit: limit ?? 5, sortOption });
-        console.log('sort: ', sort);
-        console.log('sort option: ', sortOption)
+
         if (category) {
             queryParams.append('category', category);
         }
