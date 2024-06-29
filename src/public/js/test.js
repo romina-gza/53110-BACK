@@ -10,24 +10,25 @@ form.addEventListener('submit', e => {
     let stock = document.querySelector('input[name=stock]').value
     let thumbnails = document.querySelector('input[name=thumbnails]').value
 
-    let product = { price, title, description, stock, thumbnails }
-    console.log('products form hdbs: ', product)
+    let product = { title, description, price, stock, thumbnails: [thumbnails] }
+    console.log('products from hdbs: ', product)
     socket.emit('newProduct', product)
 })
-/* 
-socket.on('nuevoProducto', nuevoProducto =>{
+
+socket.on('nuevoProducto', nuevoProducto => {
     console.log('nuevoProducto: ', nuevoProducto)
     let cardProduct = document.getElementById('containerCards')
-    cardProduct+= `
-        <div class="card m-3" style="min-width:18rem; max-width: 18rem;">
-            <img src=${nuevoProducto.thumbnails[0]} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt="imagen" >
-            <div class="card-body">
-            <h5 class="card-title"> ${nuevoProducto.title}</h5>
-            <p class="card-text"> ${nuevoProducto.description}</p>
+    let newCard = document.createElement('div')
+    newCard.className = 'card m-3'
+    newCard.style.minWidth = '18rem'
+    newCard.style.maxWidth = '18rem'
+    newCard.innerHTML = `
+        <img src=${nuevoProducto.thumbnails[0]} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt="imagen">
+        <div class="card-body">
+            <h5 class="card-title">${nuevoProducto.title}</h5>
             <p>Price: ${nuevoProducto.price}</p>
-            <a href="#" class="btn btn-success">Buy!</a>
-            </div>
-        </div> 
+            <a href="#" class="btn btn-success">Agregar</a>
+        </div>
     `
+    cardProduct.appendChild(newCard);
 })
- */

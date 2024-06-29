@@ -1,3 +1,4 @@
+// antiguo manager - NOTA usarlo como manager de FS
 import fs from 'fs'
 import { productsModel } from './model/products.model.js'
 //import path from 'path'

@@ -1,0 +1,22 @@
+
+<h1>Productos en el carrito</h1>
+
+{{#if products.length}}
+
+<ul>
+    {{#each products}}
+    <li>
+        <img src={{this.productId.thumbnails}} alt={{this.productId.description}}>
+        <h3>{{this.productId.title}}</h3>
+        <p>Precio: ${{this.productId.price}}</p>
+
+    </li>
+    {{/each}}
+</ul>
+{{else}}
+<p>No hay productos en este carrito.</p>
+{{/if}}
+
+<script>const userCartId = '{{userCartId}}';
+        console.log('User Cart ID de hdbs:', userCartId);</script>
+<script src="/js/cart.js"></script>

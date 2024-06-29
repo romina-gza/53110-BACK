@@ -1,23 +1,29 @@
 import { Router } from "express"
-import { UsersManager } from "../dao/usersManager.js"
-
-import { createHash, validatePassword } from "../utils.js"
 import passport from "passport"
 import { auth } from "../middleware/auth.js"
 
 export const sessionsRouter = Router()
 
-let usersManager = new UsersManager()
 sessionsRouter.get('/registerError', (req, res)=> {
-    return res.redirect('/register?err=Error al momento de registrarse')
+    return res.status(400).redirect('/register?err=Error%20al%20momento%20de%20registrarse')
 })
-sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect: '/api/sessions/registerError'} ), (req, res)=> {
+sessionsRouter.post('/register', 
+    passport.authenticate('register', 
+    {failureRedirect: '/api/sessions/registerError'} ),
+    (req, res)=> {
     console.log('user req:', req.user)
     return res.redirect('/login')
 })
-
-sessionsRouter.get('loginError', (req, res)=> {
-    return res.status(400).json({err: 'Error al momento de logearse'})
+/* sessionsRouter.post('/register', 
+    passport.authenticate('register', 
+    {failureRedirect: '/api/sessions/registerError'} ),
+    (req, res)=> {
+    console.log('user req:', req.user)
+    return res.redirect('/login')
+}) */
+sessionsRouter.get('/loginError', (req, res)=> {
+    //return res.status(400).json({err: 'Error al momento de logearse'})
+    return res.status(400).redirect('/login?err=Error%20al%20momento%20de%20logearse')
 })
 
 sessionsRouter.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError' }), async (req, res)=> {
@@ -30,6 +36,8 @@ sessionsRouter.post('/login', passport.authenticate('login', { failureRedirect: 
         /* return res.status(200).json({message: `Login correcto`, existUser}) */
         return res.redirect('http://localhost:8080/products')
     } catch (err) {
+        console.log('el eerror:', err)
+        console.log('mensaje de error:', err.message)
         res.setHeader('Content-Type', 'application/json')
         return res.status(500).json({error: `Error en el servidor. Error: ${err.message}`})
     }

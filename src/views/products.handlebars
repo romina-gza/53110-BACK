@@ -13,18 +13,32 @@
 
 <section> 
     <div class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
-    
     {{#each payload}}
         <div class="card m-3" id="{{this._id}}" style="min-width:18rem; max-width: 18rem;">
-            <img src={{this.thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt="imagen" >
+            <img src={{this.thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt={{this.description}} >
             <div class="card-body">
-            <h5 class="card-title"> {{this.title}}</h5>
-            <p>${{this.price}}</p>
-            <a href="#" class="btn btn-success">Buy!</a>
+                <h5 class="card-title"> {{this.title}}</h5>
+                <p>${{this.price}}</p> 
+            <div class="contenedor-principal">
+                    <div class="contenedor-botones-input">
+                        <button type="button" class="less-button" data-id="{{this._id}}"
+                            aria-label="Disminuir la cantidad en 1" title="Disminuir la cantidad en 1"
+                            style="color: rgba(117, 141, 163, 0.6);">
+                            -
+                        </button>
+                        <input type="number" id="quantity-{{this._id}}" name="quantity" aria-label="Cantidad" class="input-quantity" value="1" min="1"
+                            size="3">
+                        <button type="button" class="add-button" data-id="{{this._id}}"
+                            aria-label="Aumentar la cantidad en 1" title="Aumentar la cantidad en 1"
+                            style="color: #c58686">
+                            +
+                        </button>
+                    </div>
+                </div>
+            <button class="btn btn-success add-to-cart" data-id="{{this._id}}">Agregar</button>
             </div>
         </div>        
     {{/each}}
-    
     </div>
 </section>
 
@@ -63,3 +77,4 @@
 </nav>
 
 <script src="/js/product.js"></script>
+<script src="/js/cart.js"></script>

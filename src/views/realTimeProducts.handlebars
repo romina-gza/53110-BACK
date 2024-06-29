@@ -1,26 +1,41 @@
 <h1>Crear Productos</h1>
-
-    <form id="form" action="/realtimeproducts" method="POST">
-        <input type="text" name="title" placeholder="Titulo del producto" >
-        <input type="text" name="description" placeholder="description" >
-        <input type="text" name="thumbnails" placeholder="thumbnails" >
-        <input type="number" name="price" placeholder="price" >
-        <input type="number" name="stock" placeholder="stock" >
-        <input type="submit" value="Send" >
-
-    </form>
+<section>
+    <div>
+        <form id="form" action="/realtimeproducts" method="POST">
+            <input type="text" name="title" placeholder="Titulo del producto" >
+            <input type="text" name="description" placeholder="Descripción" >
+            <input type="text" name="thumbnails" placeholder="Imagen" >
+            <input type="number" name="price" placeholder="Precio" >
+            <input type="number" name="stock" placeholder="stock" >
+            <input type="submit" value="Crear" >
+        </form>
+    </div>
+    <div>
+       {{!--  <div id="containerCards" class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
+    {{#each product}}
+        <div class="card m-3" id="{{this._id}}" style="min-width:18rem; max-width: 18rem;">
+            <img src={{this.thumbnails.[0]}} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt={{this.description}}>
+            <div class="card-body">
+            <h5 class="card-title"> {{this.title}}</h5>
+            <p>Price: {{this.price}}</p>
+            <a href="#" class="btn btn-success">Agregar</a>
+            </div>
+        </div>        
+    {{/each}}
+        </div> --}}
+    </div>
+</section>
 <br>
 
-<h2>Products actuales</h2>
+<h2>Productos actuales</h2>
     <div id="containerCards" class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
     {{#each product}}
-        <div class="card m-3" style="min-width:18rem; max-width: 18rem;">
-            <img src={{thumbnails.[0]}} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt="imagen" >
+        <div class="card m-3" id="{{this._id}}" style="min-width:18rem; max-width: 18rem;">
+            <img src={{this.thumbnails.[0]}} class="card-img-top" style="height: 220px; width:100%; display:block; object-fit: cover" alt={{this.description}} >
             <div class="card-body">
-            <h5 class="card-title"> {{title}}</h5>
-            <p class="card-text"> {{description}}</p>
-            <p>Price: {{price}}</p>
-            <a href="#" class="btn btn-success">Buy!</a>
+            <h5 class="card-title"> {{this.title}}</h5>
+            <p>Price: {{this.price}}</p>
+            <a href="#" class="btn btn-success">Agregar</a>
             </div>
         </div>        
     {{/each}}

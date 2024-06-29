@@ -17,6 +17,8 @@ import MessagesManager from './dao/messagesManager.js'
 import { chatRouter } from './routes/chat.router.js'
 import { sessionsRouter } from './routes/sessions.router.js'
 import { config } from './config/config.js'
+import { productsServices } from './services/products.service.js'
+import cartIdMiddleware from './middleware/cart.js'
 
 const PORT = config.PORT
 
@@ -47,7 +49,7 @@ app.use(passport.session())
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname, "views"))
-
+app.use(cartIdMiddleware)
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
@@ -87,8 +89,22 @@ const messagesManager = new MessagesManager()
 io.on('connection', socket => {
     console.log('nuevo cliente conectado', 'SOCKET es: ', socket.id)
     
-    socket.on('newProduct', data=> {
-        console.log('data de form es:', data)
+    socket.on('newProduct', async data=> {
+        console.log('data de form ess:', data)
+        try {    //new oia
+            let lastCode = await productsServices.getLastProductCode();
+            let code = lastCode + 1;
+            data.code = code;
+            
+            if (data.thumbnails[0] == '') {
+                data.thumbnails = ["https://craftypixels.com/placeholder-image/250x200/7030f0/2d1b52&text=250x200"];
+            } 
+            let newProd = await productsServices.createProducts(data)
+            console.log('nuevo producto: ', newProd)
+            io.emit('nuevoProducto', newProd)
+        } catch (err) {
+            console.log('el err:' , err)
+        }
     })
     
     socket.on("presentation", async user => {

@@ -7,7 +7,7 @@ export default class CartsManager {
     constructor(  ){
         /* this.path = file */
     }
-
+// ---> POR QUE TENIA PRODUCTS ?
     async createCart(products) {
         try {
             //let listCarts = await this.getCarts()

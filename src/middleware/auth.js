@@ -4,7 +4,7 @@ export const auth = (req, res, next) => {
         res.setHeader('Content-Type','application/json')
         //console.log('user without authentication.')
         //return res.status(401).json({error: 'Usuario sin autenticar.'})
-        return res.redirect(401, '/login')
+        return res.redirect('/login')
     }
     next()
 }
