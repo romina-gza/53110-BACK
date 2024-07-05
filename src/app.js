@@ -7,6 +7,7 @@ import session from 'express-session'
 import ConnectMongo from 'connect-mongo'
 import { initializesPassport } from './config/passport.config.js'
 import passport from 'passport'
+import cors from 'cors'
 
 import __dirname from './utils.js'
 import { router as productsRouter } from './routes/products.router.js'
@@ -27,6 +28,7 @@ let io;
 
 app.use( express.json() )
 app.use( express.urlencoded( { extended: true } ) )
+app.use(cors({}))
 
 app.use( express.static( path.join( __dirname, "public" ) ) )
 app.use(session(

@@ -1,5 +1,6 @@
 
 <h1>Productos en el carrito</h1>
+<input type="hidden" id="userCartId" value="{{userCartId}}">
 
 {{#if products.length}}
 
@@ -17,6 +18,4 @@
 <p>No hay productos en este carrito.</p>
 {{/if}}
 
-<script>const userCartId = '{{userCartId}}';
-        console.log('User Cart ID de hdbs:', userCartId);</script>
 <script src="/js/cart.js"></script>

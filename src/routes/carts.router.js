@@ -1,10 +1,8 @@
 import { Router } from "express"
 import CartsController from "../controller/carts.controller.js"
 import cartIdMiddleware from "../middleware/cart.js"
-
 export const router = Router()
 
-router.use(cartIdMiddleware)
 router.post('/', CartsController.createCart)
 // listar productos de cid
 router.get('/:cid', CartsController.getCartById)

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const userCartId = document.getElementById('userCartId')
+    console.log('el id del carrito en public-cart.js es', userCartId)
     document.querySelectorAll('.less-button').forEach(button => {
         button.addEventListener('click', () => {
             const productId = button.getAttribute('data-id');
@@ -20,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //console.log('User Cart ID in cart.jsssss:', cartId)
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', async () => {
+            console.log(`user cart id! ${userCartId}`)
             const productId = button.getAttribute('data-id');
             const quantityInput = document.getElementById(`quantity-${productId}`);
             const quantity = parseInt(quantityInput.value) || 1;

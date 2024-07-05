@@ -185,27 +185,33 @@ router.get("/products", auth, async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor" })
     }
 }) */
-    router.get("/carts/:cid", async (req, res) => {
-        try {
-            let { cid } = req.params;
-            //let products = await cartsDao.getCartsById(cid);
-            let products = await cartsServices.getCartsById(cid) 
-            if (!products) {
-                res.setHeader("Content-Type", "application/json");
-                return res.status(400).json({ message: `El id: ${cid} no existe.` });
-            }
-            const userCartId = req.session.existUser.cart
-            //const userCartId = req.cartId.toString();
-            console.log('user cartid toString - views:', userCartId)
-            res.setHeader("Content-Type", "text/html");
-            res.status(200).render('cart', {
-                products,
-                userCartId 
-            });
-        } catch (err) {
-            res.status(500).json({ message: "Error interno del servidor" });
+router.get("/carts/:cid", async (req, res) => {
+    try {
+        let { cid } = req.params;
+        
+        //let products = await cartsDao.getCartsById(cid);
+        let products = await cartsServices.getCartsById(cid) 
+        console.log('products de views:', products)
+        if (!products) {
+            console.log('al parecer no hay productos aun.')
+            //res.setHeader("Content-Type", "application/json");
+            //return res.status(400).json({ message: `El id: ${cid} no existe.` });
         }
-    })
+        //const userId = req.session.existUser._id
+        const userCartId = req.session.existUser.cart._id
+        const productsSession = req.session.existUser.cart
+        console.log('product de session desde views:', productsSession)
+        //const userCartId = req.cartId.toString();
+        console.log('user cartid toString - views:', userCartId)
+        res.setHeader("Content-Type", "text/html");
+        res.status(200).render('cart', {
+            products,
+            userCartId 
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Error interno del servidor" });
+    }
+})
 router.get("/register", (req, res) => {
     res.status(200).render("register", { err: req.query.err })
 })

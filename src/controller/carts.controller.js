@@ -14,23 +14,27 @@ export default class CartsController {
         }
     }
     static getCartById = async ( req, res ) => {
-            try {
-            let cid = Number(req.params.cid)
+        try {
+            let cid = Number(req.params.cid);
             if (isNaN(cid)) {
-                res.setHeader('Content-Type','application/json')
-                return res.status(400).json({message: "El id debe ser un número"})
+            res.setHeader("Content-Type", "application/json");
+            return res
+                .status(400)
+                .json({ message: "El id debe ser un número" });
             }
-            let data = await cartsServices.getCartsById(cid)
-            if (!data){
-                res.setHeader('Content-Type','application/json')
-                return res.status(400).json( { message : `El id: ${cid} no existe.`} )
+            let data = await cartsServices.getCartsById(cid);
+            if (!data) {
+            res.setHeader("Content-Type", "application/json");
+            return res
+                .status(400)
+                .json({ message: `El id: ${cid} no existe.` });
             }
-                res.setHeader('Content-Type','application/json')
-                res.status(200).json( data )
-            } catch (err) {
-                res.setHeader('Content-Type','application/json')
-                res.status(500).json({ message: 'Error interno del servidor'})
-            }
+            res.setHeader("Content-Type", "application/json");
+            res.status(200).json(data);
+        } catch (err) {
+            res.setHeader("Content-Type", "application/json");
+            res.status(500).json({ message: "Error interno del servidor" });
+        }
     }
     // CUESTIONABLE - revisar
     /* static addToCart = async ( req, res ) => {
@@ -73,7 +77,8 @@ export default class CartsController {
         try {
             const { productId, quantity } = req.body;
             const cartId = req.cartId;
-            console.log('cartid es:', cartId)
+            //const cartId = req.session.existUser.cart
+            //console.log('cartId eess:', cartId)
             //const updatedCart = await cartsDao.addToCart(cartId, productId, quantity);
             const updatedCart = await cartsServices.addToCart(cartId, productId, quantity)
             res.status(200).json(updatedCart);
