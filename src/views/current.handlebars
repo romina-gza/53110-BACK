@@ -1,10 +1,10 @@
 <h1>Mis datos desde ruta <b>current</b></h1>
 <section>
-    <p>Información de la cuenta</p><i>{{user.role}}</i>
+    <p>Información de la cuenta</p><i>{{returnUser.role}}</i>
     <div>
-        <p>Nombre: <i>{{user.first_name}}</i></p>
-        <p>Email: <i>{{user.email}}</i></p>
+        <p>Nombre: <i>{{returnUser.first_name}}</i></p>
+        <p>Email: <i>{{returnUser.email}}</i></p>
 
     </div>
-    <p>¿No eres <i>{{user.first_name}}</i>? <a href="/api/sessions/logout">Cerrar sesion ahora</a></p>
+    <p>¿No eres <i>{{returnUser.first_name}}</i>? <a href="/logout">Cerrar sesion ahora</a></p>
 </section>

@@ -1,6 +1,7 @@
 import { Router } from "express"
 import passport from "passport"
 import { auth } from "../middleware/auth.js"
+import { UserDTO } from "../dto/users.dto.js"
 
 export const sessionsRouter = Router()
 
@@ -80,9 +81,11 @@ sessionsRouter.get('/errorFromGithub', (req, res)=> {
     })
 })
 
-sessionsRouter.get('/current', auth, (req, res) => {
+sessionsRouter.get('/current', (req, res) => {
     try {
         let user = req.session.existUser
+        //let returnUser = new UserDTO(user)
+        console.log("ret yser",returnUser)
         res.status(200).render("current", { user })
     } catch (err) {
         return err

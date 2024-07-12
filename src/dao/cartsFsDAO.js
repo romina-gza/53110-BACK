@@ -1,9 +1,10 @@
+// antiguo manager de carts
 import fs from 'fs'
 
 import { cartsModel } from './model/carts.model.js'
 import { productsModel } from './model/products.model.js'
 /* cada objeto representa un producto en el array de products */
-export default class CartsManager {
+export class CartsFsDAO {
     constructor(  ){
         /* this.path = file */
     }

@@ -4,7 +4,7 @@ import { productsModel } from './model/products.model.js'
 //import path from 'path'
 //import __dirname from '../utils.js'
 
-export default class ProductManager {
+export class ProductsFsDAO {
     constructor ( file ) {
         //this.path = file
         //this.path = path.join(__dirname, file)

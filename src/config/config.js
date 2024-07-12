@@ -14,5 +14,7 @@ export const config = {
     PA_AD: process.env.PA_AD,
     GITHUB_CID: process.env.GITHUB_CID,
     GITHUB_CS: process.env.GITHUB_CS,
-    GITHUB_CURL: process.env.GITHUB_CURL
+    GITHUB_CURL: process.env.GITHUB_CURL,
+
+    PERSISTENCE: process.env.PERSISTENCE||"MONGO"
 }

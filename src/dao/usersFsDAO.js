@@ -1,8 +1,8 @@
 // antiguo manager
 import { usersModel } from "./model/users.model.js"
 import { cartsModel } from "./model/carts.model.js"
-
-export class UsersManager {
+console.log('¡¡ESTOY USANDO FS!!')
+export class UsersFsDAO {
     constructor () { }
     async createUser(user) {
         let newUser = await usersModel.create(user)

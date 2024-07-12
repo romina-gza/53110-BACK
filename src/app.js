@@ -2,7 +2,6 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import path from "path"
 import { Server } from 'socket.io'
-import mongoose from 'mongoose'
 import session from 'express-session'
 import ConnectMongo from 'connect-mongo'
 import { initializesPassport } from './config/passport.config.js'
@@ -75,15 +74,7 @@ const http = app.listen(PORT, (req,res)=>{
     console.log('escuchando')    
 })
 // Conexion a mongo db
-const connection = async () =>{
-    try {
-        await mongoose.connect(config.MONGO_URL)
-        console.log('Conectado con MongoDB')
-    } catch (err) {
-        console.log("Fallo en la conexion:", err.message)
-    }
-}
-connection()
+
 
 // socket
 io = new Server(http)

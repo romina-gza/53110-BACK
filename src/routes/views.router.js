@@ -1,19 +1,20 @@
 import { Router } from "express";
 import { productsModel } from "../dao/model/products.model.js";
 import __dirname from "../utils.js"
-import ProductManager from "../dao/productManager.js"
+//import ProductManager from "../dao/productManager.js"
 import path from "path"
 
-import CartsManager from "../dao/cartsManager.js";
+//import CartsManager from "../dao/cartsManager.js";
 import { auth } from "../middleware/auth.js";
 import { productsServices } from "../services/products.service.js";
 import ProductsController from "../controller/products.controller.js";
 import cartIdMiddleware from "../middleware/cart.js";
 import { cartsServices } from "../services/carts.service.js";
+import { UserDTO } from "../dto/users.dto.js";
 
 let pathFile = path.join(__dirname, ".", "data", "products.json")
-const list = new ProductManager(pathFile)
-const carts = new CartsManager() 
+//const list = new ProductManager(pathFile)
+//const carts = new CartsManager() 
 export const router = Router()
 
 router.get('/', async (req,res)=> {
@@ -230,3 +231,9 @@ router.get("/profile", auth, (req, res) => {
     res.status(200).render("profile", { user })
 })
 
+router.get("/current", auth, (req, res) => {
+    let user = req.session.existUser
+    let returnUser = new UserDTO(user)
+    console.log("ret yser",returnUser)
+    res.status(200).render("current", { returnUser })
+})

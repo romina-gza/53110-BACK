@@ -2,12 +2,10 @@ import passport from "passport"
 import local from "passport-local"
 import github from "passport-github2"
 
-import { UsersManager } from "../dao/usersManager.js"
 import { createHash, validatePassword } from "../utils.js"
 import { config } from "./config.js"
 import UsersController from "../controller/users.controller.js"
 
-//const usersManager = new UsersManager()
 
 export const initializesPassport = () => {
     passport.use(
