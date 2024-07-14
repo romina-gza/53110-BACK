@@ -11,6 +11,7 @@ import ProductsController from "../controller/products.controller.js";
 import cartIdMiddleware from "../middleware/cart.js";
 import { cartsServices } from "../services/carts.service.js";
 import { UserDTO } from "../dto/users.dto.js";
+import { accessMiddleware } from "../middleware/access.js";
 
 let pathFile = path.join(__dirname, ".", "data", "products.json")
 //const list = new ProductManager(pathFile)
@@ -99,7 +100,7 @@ router.get("/realtimeproducts", async (req, res) => {
 router.post("/realtimeproducts", ProductsController.createProducts)  
 
 
-router.get('/chat', (req, res)=>{
+router.get('/chat', auth, accessMiddleware('user'), (req, res)=>{
     res.status(200).render( "chat")
 })
 

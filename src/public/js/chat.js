@@ -52,6 +52,3 @@ Swal.fire({
 
     })
 })
-/* 
-divMensajes.scrollTop=divMensajes.scrollHeight;
- */

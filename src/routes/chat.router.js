@@ -1,5 +1,6 @@
 import { Router } from "express";
 import messagesManager from "../dao/messagesManager.js";
+import { accessMiddleware } from "../middleware/access.js";
 export const chatRouter = Router()
 
 let chat = new messagesManager()

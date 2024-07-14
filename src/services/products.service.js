@@ -59,4 +59,4 @@ class ProductsServices {
 }
 //export const productsServices = new ProductsServices(new ProductsDAO)
 
-export const productsServices = new ProductsServices( DAO.ProductsDAO )
+export const productsServices = new ProductsServices( new DAO.ProductsDAO )

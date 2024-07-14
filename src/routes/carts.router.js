@@ -1,6 +1,7 @@
 import { Router } from "express"
 import CartsController from "../controller/carts.controller.js"
 import cartIdMiddleware from "../middleware/cart.js"
+import { accessMiddleware } from "../middleware/access.js"
 export const router = Router()
 
 router.post('/', CartsController.createCart)
@@ -8,7 +9,7 @@ router.post('/', CartsController.createCart)
 router.get('/:cid', CartsController.getCartById)
 // agrega al cid el pid y la cantidad 
 // problemas cuando no encuentra el pid, no detiene el algoritmo.
-router.post('/:cid/product/:pid', CartsController.addToCart) 
+router.post('/:cid/product/:pid', accessMiddleware('user'),CartsController.addToCart) 
 // elimina del carrito el pid seleccionado ❌
 router.delete('/:cid/products/:pid', CartsController.deleteProduct)
 // PUT 

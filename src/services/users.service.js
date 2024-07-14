@@ -43,4 +43,4 @@ class UserService {
         }
     }
 }
-export const userService = new UserService( DAO.UsersDAO )
+export const userService = new UserService( new DAO.UsersDAO )

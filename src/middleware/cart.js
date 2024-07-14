@@ -5,6 +5,8 @@ const cartIdMiddleware = (req, res, next) => {
         //const userCartId = user.cart
         if (user) {
             req.cartId = user.cart;
+            console.log('user es: ', user)
+            
             console.log('Si tiene sesion el id cart es: ', user.cart)
         } else {
             console.log('no inició sesion')
