@@ -8,10 +8,9 @@ export class CartsFsDAO {
     constructor(  ){
         /* this.path = file */
     }
-// ---> POR QUE TENIA PRODUCTS ?
     async createCart(products) {
         try {
-            //let listCarts = await this.getCarts()
+            let listCarts = await this.getCarts()
 
             // id autogenerado
             /* let id = 1
@@ -19,12 +18,12 @@ export class CartsFsDAO {
             if (lengthListCarts > 0 ) id = listCarts[lengthListCarts - 1].id + 1 */
             //array de productos
 
-           // let saveProduct = { id, product: [ /* ...product */ ] }
-            //listCarts.push(saveProduct) 
+            let saveProduct = { id, product: [ /* ...product */ ] }
+            listCarts.push(saveProduct) 
 
             //guardar producto
-            // await fs.promises.writeFile(this.path,JSON.stringify(listCarts, null, 4))
-            return await cartsModel.create(products)
+            return await fs.promises.writeFile(this.path,JSON.stringify(listCarts, null, 4))
+            // return await cartsModel.create(products)
         } catch (err) {
             return err
         }

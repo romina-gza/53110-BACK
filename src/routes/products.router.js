@@ -14,9 +14,9 @@ router.get('/', ProductsController.getAllProducts)
 router.get('/:pid', ProductsController.getProductsId)
 
 // POST
-router.post('/', accessMiddleware('admin'), ProductsController.createProducts)
+router.post('/', accessMiddleware(['admin']), ProductsController.createProducts)
 // PUT actualizar los campos
-router.put('/:pid', accessMiddleware('admin'), ProductsController.updateProductById)
+router.put('/:pid', accessMiddleware(['admin']), ProductsController.updateProductById)
 
 //DELETE - eliminar producto
-router.delete('/:pid', accessMiddleware('admin'), ProductsController.deleteProductById)
+router.delete('/:pid', accessMiddleware(['admin']), ProductsController.deleteProductById)

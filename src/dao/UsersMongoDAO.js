@@ -14,7 +14,6 @@ export class UsersMongoDAO {
         return newUser.toJSON()
     }
 
-    // Función para obtener un usuario con su carrito
     async getUserWithCart (userId) { 
         return await usersModel.findById(userId).populate('cart')
     }

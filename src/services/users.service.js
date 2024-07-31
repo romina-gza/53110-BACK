@@ -1,4 +1,3 @@
-//import { UsersMongoDAO as DAO} from "../dao/UsersMongoDAO.js"
 import { DAO } from "../dao/factory.js"
 
 class UserService {
@@ -12,7 +11,6 @@ class UserService {
             return err
         }
     }
-    // Using the "getBy" function
     async getUserEmail (email) {
         try {
             return await this.UserService.getBy({ email })
@@ -20,7 +18,6 @@ class UserService {
             return err
         }
     }
-    // Using the "getBy" function
     async getUserId (id) {
         try {
             return await this.UserService.getBy({ _id: id })

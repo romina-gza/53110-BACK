@@ -4,6 +4,17 @@ import { userService } from "../services/users.service.js"
 import { createHash, validatePassword } from "../utils.js"
 
 export default class UsersController {
+    static getAllUsers = async (req, res) => {
+        try {
+            await userService.getAllUsers()
+            res.setHeader('Content-Type', 'application/json')
+            res.status(201).json('Devuelve todos los usuarios')
+        } catch (err) {
+            req.logger.fatal(`Error desde 'users', en 'getAllUser'. El error: ${err}`)
+            res.setHeader('Content-Type', 'application/json')
+            res.status(500).json('Error al obtener todos los usuarios')
+        }
+    }
 
     static getUser = async (req, res) => {
         try {
@@ -12,11 +23,12 @@ export default class UsersController {
             res.setHeader('Content-Type', 'application/json')
             res.status(201).json('Carrito creado y asociado al usuario')
         } catch (err) {
+            req.logger.fatal(`Error desde 'users', en 'getUser'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
             res.status(500).json('Error al crear el carrito')
         }
     }
-    // revisar igual al anterior - posible error todo
+
     static createUser = async (req, res) => {
         try {
             const { first_name, last_name, age, email, password, role } = req.body;
@@ -26,9 +38,11 @@ export default class UsersController {
             
             res.status(201).json({ message: 'Usuario creado y carrito asignado', user: newUser });
         } catch (error) {
+            req.logger.fatal(`Error desde 'users', en 'createUser'. El error: ${err}`)
             res.status(500).json({ message: 'Error al crear usuario', error });
         }
     }
+
     static getUserWithCart = async (req, res) => {
         try {
             const { userId } = req.params
@@ -36,12 +50,13 @@ export default class UsersController {
             res.setHeader('Content-Type', 'application/json')
             res.status(200).json(user)
         } catch (err) {
+            req.logger.fatal(`Error desde 'users', en 'getUserWithCart'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
             res.status(500).json('Error al obtener el usuario con carrito')
         }
     }
 
-    /* passport.config */
+    // passport.config
     static registerUser = async (req, username, password, done) => {
         try {
             const { first_name } = req.body;
@@ -49,27 +64,24 @@ export default class UsersController {
                 return done(null, false);
             }
             let exist = await userService.getUserEmail(username)
-            // let exist = await usersManager.getBy({ email: username });
-            console.log('el email del user existe:', exist)
+
             if (exist) {
+                req.logger.error(`El usuario: '${exist}' ya existe`)
                 return done(null, false);
             }
             password = createHash(password);
             let newUser = await userService.createUser({ first_name, email: username, password })
-            // let newUser = await usersManager.createUser({ first_name, email: username, password });
-            console.log('new user controller/user-mongo-dao:', newUser)
-            //await cartsManager.createCartForUser(newUser._id);
             await cartsServices.createCartForUser(newUser._id)
             return done(null, newUser);
         } catch (err) {
-            console.log('el error de register:', err)
+            req.logger.fatal(`Error desde 'users', en 'registerUser'. El error: ${err}`)
             return done(err);
         }
     }
+
     static loginUser = async ( username, password, done ) => {
         try {
             let existUser = await userService.getUserEmail(username)
-            //let existUser = await usersManager.getBy({email: username})
             
             if (!existUser) {
                 return done(null, false)
@@ -81,39 +93,41 @@ export default class UsersController {
                 existUser.role = 'admin'
             }
             
-            // Verificar la contraseña bcrypt
             if (!validatePassword(existUser, password)) {
                 return done(null, false)
             }
             return done(null, existUser)
         } catch (err) {
+            req.logger.fatal(`Error desde 'users', en 'loginUser'. El error: ${err}`)
             return done(err)
         }
     }
     static loginWithGithub = async function( accessToken, refreshToken, profile, done ) {
         try {
-           // console.log('profile: ', profile)
             let first_name = profile._json.name
             let email = profile._json.email
 
             let existUser = await userService.getUserEmail(email)
-            //let existUser = await usersManager.getBy({email})
             
             if (!existUser) {
                 let newUser = await userService.createUser({first_name, email, profileGitHub: profile})
-                console.log('newuser github: ', newUser)
-                //await usersManager.createUser({first_name, email, profileGitHub: profile})
+                req.logger.info(`Newuser github: ${newUser}`)
                 await cartsServices.createCartForUser(newUser._id)
             }
             return done(null, existUser)
         } catch (err) {
-            console.log('error github login: ', err)
+            req.logger.fatal(`Error desde 'users', en 'loginWithGithub'. El error: ${err}`)
             return done(err)
         }
     }
     static deserializeUser = async (id, done) => {
-        let user = await userService.getUserId(id)
-        //let user = await usersManager.getBy({_id: id})
-        return done(null, user)
+        try {
+            let user = await userService.getUserId(id)
+            return done(null, user)
+        } catch (err) {
+            req.logger.fatal(`Error desde 'users', en 'deserializeUser'. El error: ${err}`)
+            return done(err)
+        }
     } 
+    
 }

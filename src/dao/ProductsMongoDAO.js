@@ -1,12 +1,5 @@
 import { productsModel } from "./model/products.model.js";
 export class ProductsMongoDAO {
-    /*    async addProducts (title, description, thumbnails, price, stock, code, status, category) {
-        try {
-            return await productsModel.create({ title, description, thumbnails, price, stock, code, status, category })
-        } catch (err) {
-            return err
-        }
-    } */
     async createProducts (newProduct) {
         try {
             return await productsModel.create(newProduct)
@@ -21,7 +14,7 @@ export class ProductsMongoDAO {
             return err
         }
     }
-    // To use the trick findOne(filter)
+    
     async getProductsBy (filter) {
         try {
             return await productsModel.findOne(filter)
@@ -31,7 +24,6 @@ export class ProductsMongoDAO {
     }
     async updateProducts (id, newProducts) {
         try {
-            /* return await productsModel.findByIdAndUpdate({_id: id}, {newProducts}, {new: true}) */
             return await productsModel.findByIdAndUpdate(id, newProducts, {new: true})
         } catch (err) {
             return err
@@ -39,7 +31,6 @@ export class ProductsMongoDAO {
     }
     async deleteProducts (id) {
         try {
-            // antes return productsModel.findByIdAndDelete({_id: id})
             return await productsModel.findByIdAndDelete(id)
         } catch (err) {
             return err

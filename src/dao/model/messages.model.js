@@ -7,7 +7,6 @@ const messagesSchema = new mongoose.Schema(
         message: String
     },
     {
-        // marca fecha de momento de creacion, actualizacion
         timestamps: true
     }
 )

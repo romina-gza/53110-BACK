@@ -1,0 +1,205 @@
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-28T18:25:51.181Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-28T18:29:31.185Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-28T18:29:37.740Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-28T18:39:39.013Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T00:45:44.648Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T00:45:45.504Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-30T00:46:11.406Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-30T00:46:11.712Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-30T00:46:18.283Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-30T00:46:18.403Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-30T00:46:21.870Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-30T00:46:22.581Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T01:08:18.347Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T01:08:19.249Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T01:14:35.649Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T01:14:36.423Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T02:07:25.347Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T02:07:26.355Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T02:07:34.289Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T02:07:34.840Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T02:07:49.170Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T02:07:49.729Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T02:15:35.735Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T02:15:36.735Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T02:18:19.444Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T02:18:20.192Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-30T02:23:09.072Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-30T02:23:10.032Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-31T10:12:27.750Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-31T10:12:29.026Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:12:34.186Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:12:34.412Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-31T10:13:57.053Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-31T10:13:58.048Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:14:03.933Z'
+}
+{
+  message: 'escuchando',
+  level: 'http',
+  timestamp: '2024-07-31T10:14:28.303Z'
+}
+{
+  message: 'Conectado con MongoDB!!',
+  level: 'info',
+  timestamp: '2024-07-31T10:14:28.980Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:14:36.143Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:14:43.505Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:14:46.260Z'
+}
+{
+  message: 'no inició sesion',
+  level: 'info',
+  timestamp: '2024-07-31T10:14:47.051Z'
+}

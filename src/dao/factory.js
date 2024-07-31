@@ -1,4 +1,5 @@
 import { config } from "../config/config.js"
+import { logger } from "../utils.js"
 export let DAO = {}
 
 switch (config.PERSISTENCE) {
@@ -14,10 +15,11 @@ switch (config.PERSISTENCE) {
         DAO.UsersDAO = (await import("./usersFsDAO.js")).UsersFsDAO
         DAO.CartsDAO = (await import("./cartsFsDAO.js")).CartsFsDAO
         DAO.ProductsDAO = (await import("./productFsDAO.js")).ProductsFsDAO
+
         break;
 
     default:
-        console.log('Persistencia configurada..')
+        logger.info('Persistencia configurada..')
         process.exit()
         break;
 }

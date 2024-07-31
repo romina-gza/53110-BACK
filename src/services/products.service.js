@@ -1,4 +1,3 @@
-//import { ProductsMongoDAO as ProductsDAO } from "../dao/ProductsMongoDAO.js"
 import { DAO } from "../dao/factory.js"
 
 class ProductsServices {
@@ -7,7 +6,7 @@ class ProductsServices {
     }
     async createProducts (newProduct) {
         try {
-            // newProduct debe ser una variable == {title, description, thumbnails, price, stock, code, status, category} cuando se use.
+            // Nota: newProduct debe ser una variable == {title, description, thumbnails, price, stock, code, status, category} cuando se use.
             return await this.ProductsServices.createProducts(newProduct)
         } catch (err) {
             return err
@@ -34,7 +33,6 @@ class ProductsServices {
             return err
         }
     }
-    // NOTA- REVISAR- PROBLEMA - puede ser {newProducts} o newProducts 
     async updateProducts (id, newProducts) {
         try {
             return await this.ProductsServices.updateProducts({_id: id}, {newProducts})
@@ -57,6 +55,5 @@ class ProductsServices {
         }
     }
 }
-//export const productsServices = new ProductsServices(new ProductsDAO)
 
 export const productsServices = new ProductsServices( new DAO.ProductsDAO )

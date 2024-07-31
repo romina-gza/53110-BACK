@@ -1,22 +1,20 @@
-// middleware/cartIdMiddleware.js
+import { logger } from "../utils.js"
+
+// cartIdMiddleware
 const cartIdMiddleware = (req, res, next) => {
     try {
-        const user = req.session.existUser;
-        //const userCartId = user.cart
+        const user = req.session.existUser
         if (user) {
-            req.cartId = user.cart;
-            console.log('user es: ', user)
-            
-            console.log('Si tiene sesion el id cart es: ', user.cart)
+            req.cartId = user.cart            
         } else {
-            console.log('no inició sesion')
+            logger.info('no inició sesion')
         }
-        next();
+        next()
     } catch (err) {
-        console.log('el error desde cart middleware: ',err)
-        //res.status(500).send(err);
+        logger.error(`el error desde cart middleware: ${err}`)
+        //res.status(500).send(`el error desde cart middleware: ${err}`)
     }
-};
+}
 
-export default cartIdMiddleware;
+export default cartIdMiddleware
 

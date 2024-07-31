@@ -1,27 +1,22 @@
 import { Router } from "express";
 import { productsModel } from "../dao/model/products.model.js";
-import __dirname from "../utils.js"
-//import ProductManager from "../dao/productManager.js"
+import __dirname, { logger } from "../utils.js"
 import path from "path"
 
-//import CartsManager from "../dao/cartsManager.js";
 import { auth } from "../middleware/auth.js";
 import { productsServices } from "../services/products.service.js";
 import ProductsController from "../controller/products.controller.js";
-import cartIdMiddleware from "../middleware/cart.js";
 import { cartsServices } from "../services/carts.service.js";
 import { UserDTO } from "../dto/users.dto.js";
 import { accessMiddleware } from "../middleware/access.js";
 
 let pathFile = path.join(__dirname, ".", "data", "products.json")
-//const list = new ProductManager(pathFile)
-//const carts = new CartsManager() 
+
 export const router = Router()
 
 router.get('/', async (req,res)=> {
     try {
         let user = req.session.existUser
-        //console.log("user d: ", user)
         let { limit, page, category, sortOption } = req.query
         let sort = { price: 1 }
         // Precio ascendente o descendente
@@ -55,9 +50,9 @@ router.get('/', async (req,res)=> {
             queryParams.append('category', category)
         }
 
-
         res.setHeader("Content-Type", "text/html")
         res.status(200).render('home', {
+            user: user,
             status: "success",
             payload: products,
             prevPage: prevPage,
@@ -75,39 +70,24 @@ router.get('/', async (req,res)=> {
     }
 })
 
-router.get("/realtimeproducts", async (req, res) => {
-    let product = await productsServices.getAllProducts() //await list.getProducts()
-    res.status(200).render("realTimeProducts", {product} )
+router.get("/realtimeproducts", accessMiddleware(["admin"]),async (req, res) => {
+    let user = req.session.existUser
+
+    let product = await productsServices.getAllProducts()
+    res.status(200).render("realTimeProducts", {user, product} )
 })
 
-/* router.post("/realtimeproducts", async (req, res) => {
-    console.log('es req.body: ',req.body)
-    let { title, description, price, thumbnails, stock } = req.body
-    let saveProduct = {
-        title, description, price, thumbnails, stock
-    }
-    //  
-    try {
-//        await productsServices.createProducts(saveProduct)
-        req.io.emit('nuevoProducto', saveProduct)
-        //res.status(200).redirect('/realtimeproducts')
-    } catch (error) {
-        console.error('Error al crear producto:', error)
-        res.status(500).send('Error al crear producto')
-    }
-})  
- */
 router.post("/realtimeproducts", ProductsController.createProducts)  
 
-
-router.get('/chat', auth, accessMiddleware('user'), (req, res)=>{
-    res.status(200).render( "chat")
+router.get('/chat', auth, accessMiddleware(['user']), (req, res)=>{
+    let user = req.session.existUser
+    let userName = user.first_name
+    res.status(200).render( "chat", {user, userName})
 })
 
 router.get("/products", auth, async (req, res) => {
     try {
         let user = req.session.existUser;
-        //console.log("user d: ", user)
         let { limit, page, category, sortOption } = req.query;
         let sort = { price: 1 }
         // Precio ascendente o descendente
@@ -161,57 +141,17 @@ router.get("/products", auth, async (req, res) => {
     }
 })
 
-/* router.get("/products/product/:pid", async (req, res) => {
+router.get("/cart", async (req, res)=> {
     try {
-        let { pid } = req.params
-        console.log('pid ', pid)
-    } catch (err) {
-        
-    }
-})
- */
-/* router.get("/carts/:cid", async (req, res)=> {
-    try {
-        let {cid} = req.params
+        const user = req.session.existUser
+        const cid = req.session.existUser.cart
 
-        let products = await carts.getcartsById(cid);
-        console.log('products de carts 🫥🫥🫥 ', products)
-        if (!products) {
-        res.setHeader("Content-Type", "application/json");
-        return res.status(400).json({ message: `El id: ${cid} no existe.` });
-        }
-        res.setHeader("Content-Type", "text/html");
-        res.status(200).render('cart', {products});
-    } catch (err) {
-        //res.setHeader("Content-Type", "text/html");
-        res.status(500).json({ message: "Error interno del servidor" })
-    }
-}) */
-router.get("/carts/:cid", async (req, res) => {
-    try {
-        let { cid } = req.params;
-        
-        //let products = await cartsDao.getCartsById(cid);
+        let totalPrice = await cartsServices.calculateTotalPrice(cid)
         let products = await cartsServices.getCartsById(cid) 
-        console.log('products de views:', products)
-        if (!products) {
-            console.log('al parecer no hay productos aun.')
-            //res.setHeader("Content-Type", "application/json");
-            //return res.status(400).json({ message: `El id: ${cid} no existe.` });
-        }
-        //const userId = req.session.existUser._id
-        const userCartId = req.session.existUser.cart._id
-        const productsSession = req.session.existUser.cart
-        console.log('product de session desde views:', productsSession)
-        //const userCartId = req.cartId.toString();
-        console.log('user cartid toString - views:', userCartId)
-        res.setHeader("Content-Type", "text/html");
-        res.status(200).render('cart', {
-            products,
-            userCartId 
-        });
+
+        res.status(200).render("cart", { user, products, totalPrice })
     } catch (err) {
-        res.status(500).json({ message: "Error interno del servidor" });
+        res.status(500).send("Error al obtener el carrito, debes estar logueado para poder agregar productos 😊.");
     }
 })
 router.get("/register", (req, res) => {
@@ -219,7 +159,6 @@ router.get("/register", (req, res) => {
 })
 
 router.get("/login", (req, res) => {
-    //res.status(200).render("login")
     res.status(200).render("login", { err: req.query.err })
 })
 
@@ -235,6 +174,16 @@ router.get("/profile", auth, (req, res) => {
 router.get("/current", auth, (req, res) => {
     let user = req.session.existUser
     let returnUser = new UserDTO(user)
-    console.log("ret yser",returnUser)
     res.status(200).render("current", { returnUser })
+})
+
+router.get('/loggerTest', (req, res) => {
+    req.logger.debug('prueba logger de Debug log')
+    req.logger.http('prueba logger de HTTP log')
+    req.logger.info('prueba logger de Info log')
+    req.logger.warning('prueba logger de Warning log')
+    req.logger.error('prueba logger de Error log')
+    req.logger.fatal('prueba logger de Fatal log')
+
+    res.status(200).render('home')
 })

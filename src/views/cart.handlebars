@@ -2,20 +2,24 @@
 <h1>Productos en el carrito</h1>
 <input type="hidden" id="userCartId" value="{{userCartId}}">
 
+<section>
 {{#if products.length}}
+    <ul>
+        {{#each products}}
+        <li>
+            <img src={{this.productId.thumbnails}} alt={{this.productId.description}}>
+            <h3>{{this.productId.title}}</h3>
+            <p>Cantidad pedida: <b>{{this.quantity}}</b></p>
+            <p>Precio: ${{this.productId.price}}</p>
 
-<ul>
-    {{#each products}}
-    <li>
-        <img src={{this.productId.thumbnails}} alt={{this.productId.description}}>
-        <h3>{{this.productId.title}}</h3>
-        <p>Precio: ${{this.productId.price}}</p>
-
-    </li>
-    {{/each}}
-</ul>
-{{else}}
-<p>No hay productos en este carrito.</p>
-{{/if}}
+        </li>
+        {{/each}}
+    </ul>
+        <p>Total: {{totalPrice}}</p> {{!-- processPurchase será la class del btn HACER EL STYLE --}}
+        <button class="btn btn-success" id="process-purchase">Realizar pedido</button>
+    {{else}}
+    <p>No hay productos en este carrito.</p>
+    {{/if}}
+</section>
 
 <script src="/js/cart.js"></script>

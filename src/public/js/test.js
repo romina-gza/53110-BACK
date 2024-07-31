@@ -11,12 +11,10 @@ form.addEventListener('submit', e => {
     let thumbnails = document.querySelector('input[name=thumbnails]').value
 
     let product = { title, description, price, stock, thumbnails: [thumbnails] }
-    console.log('products from hdbs: ', product)
     socket.emit('newProduct', product)
 })
 
 socket.on('nuevoProducto', nuevoProducto => {
-    console.log('nuevoProducto: ', nuevoProducto)
     let cardProduct = document.getElementById('containerCards')
     let newCard = document.createElement('div')
     newCard.className = 'card m-3'

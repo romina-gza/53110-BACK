@@ -1,9 +1,10 @@
+import { logger } from "../../utils"
+
 document.addEventListener('DOMContentLoaded', () => {
     const userCartId = document.getElementById('userCartId')
     document.querySelectorAll('.less-button').forEach(button => {
         button.addEventListener('click', () => {
             const productId = button.getAttribute('data-id')
-            console.log('es productId:', productId)
             const quantityInput = document.getElementById(`quantity-${productId}`)
             let currentQuantity = parseInt(quantityInput.value)
             if (currentQuantity > 1) {
@@ -35,26 +36,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ productId, quantity, cartId: userCartId }) 
                 })
                 const data = await response.json()
-                console.log('data de carts.js public:', data)
                 if (data.message) {
                     alert(data.message)
                 } else {
                     alert('Producto agregado al carrito')
                 }
-                /* if (response.ok) {
-                const updatedCart = await response.json()
-                console.log('Product added to cart:', updatedCart)
-                    if (updatedCart.message) {
-                        alert(updatedCart.message)
-                    } else {
-                        alert('Producto agregado al carrito')
-                    }
-                } else {
-                    console.error('Failed to add product to cart')
-                } */
-            } catch (error) {
-                console.error('Error:', error)
+            } catch (err) {
+                logger.fatal(`El error al agregar al carrito, en '.add-to-cart': ${err}`)
+                return err
             }
         })
     })
+
+    // processPurchase 
+    const processPurchaseButton = document.getElementById('process-purchase');
+    processPurchaseButton.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`/api/carts/${userCartId}/purchase`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+            if (response.ok) {
+                alert('Compra realizada con éxito');
+               // window.location.href = '/purchase-success'; // Redirige a una página de éxito de compra
+            } else {
+                alert('Error al realizar la compra: ' + data.message);
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Error al realizar la compra');
+            return err
+        }
+    });
 })

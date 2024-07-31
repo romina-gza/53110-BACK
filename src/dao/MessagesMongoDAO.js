@@ -1,9 +1,9 @@
 import { messagesModel } from "./model/messages.model.js";
 
-export default class MessagesManager {
+export default class MessagesMongoDAO {
     constructor() {}
 
-    // se utiliza para convertir los documentos recuperados de la base de datos en objetos JavaScript simples
+    // metodo lean: se utiliza para convertir los documentos recuperados de la base de datos en objetos JavaScript simples
     async getMessages() {
         return await messagesModel.find().lean()
     }

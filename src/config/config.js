@@ -16,5 +16,10 @@ export const config = {
     GITHUB_CS: process.env.GITHUB_CS,
     GITHUB_CURL: process.env.GITHUB_CURL,
 
-    PERSISTENCE: process.env.PERSISTENCE||"MONGO"
+    PERSISTENCE: process.env.PERSISTENCE||"MONGO",
+
+    US_EMAIL: process.env.US_EMAIL,
+    PSW_EMAIL: process.env.PSW_APPLICATION,
+
+    MODE: process.env.MODE || 'production'
 }

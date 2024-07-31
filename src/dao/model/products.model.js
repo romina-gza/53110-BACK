@@ -29,7 +29,6 @@ const productsSchema = new mongoose.Schema(
         category: String
     },
     {
-        // marca fecha de momento de creacion, actualizacion
         timestamps: true,
         versionKey: false
     }
