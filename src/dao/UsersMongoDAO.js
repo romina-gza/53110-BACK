@@ -1,5 +1,6 @@
 // nuevo manager
-import { usersModel } from "./model/users.model.js";
+import { usersModel } from "./model/users.model.js"
+
 export class UsersMongoDAO {
     async getAll () {
         return await usersModel.find().lean()
@@ -16,5 +17,8 @@ export class UsersMongoDAO {
 
     async getUserWithCart (userId) { 
         return await usersModel.findById(userId).populate('cart')
+    }
+    async notActiveUsers () {
+        return await usersModel.deleteMany({ last_connection: { $lt: dateLimit } })
     }
 }

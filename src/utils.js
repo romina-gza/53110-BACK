@@ -21,24 +21,8 @@ const customLevels = {
     fatal: 5
 }
 
-export const logger=winston.createLogger(
-    {
-        levels: customLevels,
-        transports:[
-            new winston.transports.File({
-                level: "info",
-                filename: "./src/logs/errors.log",
-                format: winston.format.combine(
-                    winston.format.timestamp(),
-                    winston.format.prettyPrint()
-                )
-            })
-        ]
-    }
-)
-
 // produccion
-const transportFile=new winston.transports.File({
+const transportFile = new winston.transports.File({
     level: "error",
     filename: "./src/logs/errors.log",
     format: winston.format.combine(
@@ -48,16 +32,16 @@ const transportFile=new winston.transports.File({
 })
 
 //desarrollo
-const transportConsole=new winston.transports.Console(
+const transportConsole = new winston.transports.Console(
     {
         level: "debug", 
         format: winston.format.combine(
             winston.format.timestamp(),
             winston.format.colorize({
                 colors: { 
-                    debug: 'magenta',
-                    http: 'green',
-                    info: 'blue',
+                    debug: 'blue',
+                    http: 'magenta bold',
+                    info: 'blue bold',
                     warning: 'yellow',
                     error: 'red',
                     fatal: 'magenta'}            
@@ -67,9 +51,11 @@ const transportConsole=new winston.transports.Console(
     }
 )
 
-if(config.MODE!="production"){
-    logger.add(transportConsole)
-}
+export const logger = winston.createLogger({
+    levels: customLevels,
+    transports: config.MODE == "production"
+        ? [transportFile] : [transportConsole, transportFile] 
+})
 
 export const mdwLogger=(req, res, next)=>{
     req.logger=logger

@@ -20,7 +20,8 @@ const usersSchema = new mongoose.Schema(
         cart: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'cart'
-        }
+        },
+        last_connection: { type: Date, default: null }
     },
     {
         timestamps: true,

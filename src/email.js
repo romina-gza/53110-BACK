@@ -47,3 +47,23 @@ export const sendEmail = (to, name, cid, purchaseDatetime) => {
     )
 }
 
+export const sendUserDeletionEmail = (to, name) => {
+    return transporter.sendMail({
+        from: `HosPet ${config.US_EMAIL}`,
+        to: `${to}`,
+        subject: "Cuenta Eliminada por Inactividad - HosPet",
+        html: `
+            <div style="width:100%;background-color: #7030f0;">
+                <h1 style="color: #fff;padding:2.8rem;font-family: 'Mochiy Pop One'; font-weight: 600;text-align:center;">HosPet</h1>
+            </div>
+
+            <h2 style="padding-left:1.7rem;"><strong>Hola, ${name}</strong></h2>
+            <p style="font-size:1rem;font-weight:400;">Lamentamos informarte que tu cuenta ha sido eliminada debido a la inactividad en los últimos días.</p>
+            <p style="font-size:1rem;font-weight:400;">Si crees que esto es un error, por favor, contáctanos.</p>
+            
+            <div style="width:100%;padding:0.8rem;background-color:#39187a;text-align:center;">
+                <h4 style="color: #fff;">Gracias por tu comprensión, <br><strong>El equipo de HosPet</strong></h4>
+            </div>
+        `
+    })
+}

@@ -1,4 +1,5 @@
 import { config } from "../config/config.js"
+import { sendUserDeletionEmail } from "../email.js"
 import { cartsServices } from "../services/carts.service.js"
 import { userService } from "../services/users.service.js"
 import { createHash, validatePassword } from "../utils.js"
@@ -128,6 +129,28 @@ export default class UsersController {
             req.logger.fatal(`Error desde 'users', en 'deserializeUser'. El error: ${err}`)
             return done(err)
         }
-    } 
-    
+    }
+    static notActiveUsers = async () => {
+        try {
+            const daysBefore = 0.00347 // para pruebas cambia a 0.00347 para 5 minutos, original 2
+            const dateLimit = new Date()
+            dateLimit.setDate(dateLimit.getDate() - daysBefore)
+
+            const result = await userService.notActiveUsers()
+            console.log('Resultado de los user eliminados: (RESULT):', result)
+            if (result.deletedCount > 0) {
+                for (const user of result.deletedUsers) {
+                    console.log('user emai:', user.email)
+                    console.log('user first name:', user.first_name)
+                    await sendUserDeletionEmail(user.email, user.first_name)
+                }
+                res.status(200).json({ message: `${result.deletedCount} usuarios eliminados por inactividad.` });
+            } else {
+                res.status(200).json({ message: 'No se encontraron usuarios inactivos.' });
+            }
+        } catch (error) {
+            req.logger.fatal(`Error desde 'users', en 'notActiveUsers'. El error: ${err}`)
+            res.status(500).json({ message: 'Error al eliminar usuarios inactivos.', error });
+        }
+    }
 }

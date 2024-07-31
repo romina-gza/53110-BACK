@@ -39,5 +39,12 @@ class UserService {
             return err
         }
     }
+    async notActiveUsers () {
+        try {
+            return await this.UserService.notActiveUsers()
+        } catch (err) {
+            return err
+        }
+    }
 }
 export const userService = new UserService( new DAO.UsersDAO )
