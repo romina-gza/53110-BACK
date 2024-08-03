@@ -14,14 +14,20 @@ const usersSchema = new mongoose.Schema(
         password: String,
         role: {
             type: String,
-            enum: [ 'admin', 'user' ],
+            enum: [ 'admin', 'user', 'premium' ],
             default: 'user'
         },
         cart: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'cart'
         },
-        last_connection: { type: Date, default: null }
+        documents: [
+            {
+                name: { type: String, required: true },
+                reference: { type: String, required: true }
+            }
+        ],
+        last_connection: { type: Date, default: Date.now }
     },
     {
         timestamps: true,

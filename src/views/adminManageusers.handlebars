@@ -1,0 +1,27 @@
+<h1>Administrar usuarios</h1>
+
+<table>
+        <thead>
+            <tr>
+                <th>Primer nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{this.first_name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.role}}</td>
+                <td>
+                    <button class="btn-edit-role" data-id="{{this._id}}">Modificar Rol</button>
+                    <button class="btn-delete-user" data-id="{{this._id}}">Eliminar Usuario</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+<script src="/js/adminManageUser.js"></script>

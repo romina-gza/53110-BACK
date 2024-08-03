@@ -12,10 +12,11 @@ import __dirname, { logger, mdwLogger } from './utils.js'
 import { router as productsRouter } from './routes/products.router.js'
 import { router as cartsRouter } from './routes/carts.router.js'
 import { router as viewsRouter } from './routes/views.router.js'
+import { sessionsRouter } from './routes/sessions.router.js'
+import { router as usersRouter } from './routes/users.router.js'
 
 import MessagesMongoDAO from './dao/MessagesMongoDAO.js'
 import { chatRouter } from './routes/chat.router.js'
-import { sessionsRouter } from './routes/sessions.router.js'
 import { config } from './config/config.js'
 import { productsServices } from './services/products.service.js'
 import cartIdMiddleware from './middleware/cart.js'
@@ -57,6 +58,8 @@ app.use(cartIdMiddleware)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', sessionsRouter)
+app.use('/api/users', usersRouter)
+
 
 const midlewareSocket = (req, res, next) => {
     req.io = io

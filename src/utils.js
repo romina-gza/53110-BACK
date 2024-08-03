@@ -1,6 +1,8 @@
 import { fileURLToPath } from 'url'
+import fs from 'fs'
 import { dirname } from 'path'
 import bcrypt from 'bcrypt'
+import multer from 'multer'
 import winston from 'winston'
 import { config } from './config/config.js'
 
@@ -12,18 +14,50 @@ export default __dirname
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10))    
 
 export const validatePassword = (user, password) => bcrypt.compareSync(password, user.password)
+
+// Multer 
+const ensureDirExists = (dirPath) => {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true })
+    }
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        let folder = 'uploads/others'
+
+        if (file.fieldname === 'profile') {
+            folder = 'uploads/profiles'
+        } else if (file.fieldname === 'product') {
+            folder = 'uploads/products'
+        } else if (file.fieldname === 'document') {
+            folder = 'uploads/documents'
+        }
+
+        // Asegura que la carpeta exista
+        ensureDirExists(folder)
+        cb(null, folder)
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`)
+    }
+})
+
+export const upload = multer({ storage: storage })
+
+// logger
 const customLevels = {
-    debug: 0,
-    http: 1,
-    info: 2,
-    warning: 3,
-    error: 4,
-    fatal: 5
+    fatal: 0,
+    error: 1,
+    warning: 2,
+    info: 3,
+    http: 4,
+    debug: 5
 }
 
 // produccion
 const transportFile = new winston.transports.File({
-    level: "error",
+    level: "info",
     filename: "./src/logs/errors.log",
     format: winston.format.combine(
         winston.format.timestamp(),
@@ -44,7 +78,7 @@ const transportConsole = new winston.transports.Console(
                     info: 'blue bold',
                     warning: 'yellow',
                     error: 'red',
-                    fatal: 'magenta'}            
+                    fatal: 'magenta bold'}            
             }),
             winston.format.simple()
         )
@@ -54,7 +88,7 @@ const transportConsole = new winston.transports.Console(
 export const logger = winston.createLogger({
     levels: customLevels,
     transports: config.MODE == "production"
-        ? [transportFile] : [transportConsole, transportFile] 
+        ? [transportFile] : [transportConsole] 
 })
 
 export const mdwLogger=(req, res, next)=>{

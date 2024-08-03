@@ -39,12 +39,47 @@ class UserService {
             return err
         }
     }
-    async notActiveUsers () {
+
+    async notActiveUsers(dateLimit) {
         try {
-            return await this.UserService.notActiveUsers()
+            return await this.UserService.notActiveUsers(dateLimit);
+        } catch (err) {
+            console.error('Error in userService while deleting inactive users:', err);
+            throw err;
+        }
+    }
+    
+    async updateLastConnection (cid) {
+        try {
+            return await this.UserService.updateLastConnection(cid)
         } catch (err) {
             return err
         }
     }
+
+    async updateUserRole (cid, newRole) {
+        try {
+            return await this.UserService.updateUserRole(cid, newRole)
+        } catch (err) {
+            return err
+        }
+    }
+    
+    async deleteUserById (cid) {
+        try {
+            return await this.UserService.deleteUserById(cid)
+        } catch (err) {
+            return err
+        }
+    }
+
+    async updateUserDocuments(uid, documents) {
+        try {
+            return await this.UserService.updateUserDocuments(uid, documents)
+        } catch (err) {
+            throw err;
+        }
+    }
+    
 }
 export const userService = new UserService( new DAO.UsersDAO )

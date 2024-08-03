@@ -9,6 +9,8 @@ import ProductsController from "../controller/products.controller.js";
 import { cartsServices } from "../services/carts.service.js";
 import { UserDTO } from "../dto/users.dto.js";
 import { accessMiddleware } from "../middleware/access.js";
+import UsersController from "../controller/users.controller.js";
+import { userService } from "../services/users.service.js";
 
 let pathFile = path.join(__dirname, ".", "data", "products.json")
 
@@ -48,7 +50,7 @@ router.get('/', async (req,res)=> {
 
         if (category) {
             queryParams.append('category', category)
-        }
+        } 
 
         res.setHeader("Content-Type", "text/html")
         res.status(200).render('home', {
@@ -70,14 +72,15 @@ router.get('/', async (req,res)=> {
     }
 })
 
-router.get("/realtimeproducts", accessMiddleware(["admin"]),async (req, res) => {
+router.get("/realtimeproducts", accessMiddleware(["admin","premium"]),async (req, res) => {
     let user = req.session.existUser
 
     let product = await productsServices.getAllProducts()
     res.status(200).render("realTimeProducts", {user, product} )
 })
 
-router.post("/realtimeproducts", ProductsController.createProducts)  
+router.post("/realtimeproducts", ProductsController.createProducts) 
+router.delete('/delete', UsersController.notActiveUsers)
 
 router.get('/chat', auth, accessMiddleware(['user']), (req, res)=>{
     let user = req.session.existUser
@@ -186,4 +189,19 @@ router.get('/loggerTest', (req, res) => {
     req.logger.fatal('prueba logger de Fatal log')
 
     res.status(200).render('home')
+})
+
+router.get('/adminManageUsers', accessMiddleware(['admin']), async (req, res) => {
+    let users = await userService.getAllUsers()
+    let user = req.session.existUser
+    
+    console.log('✨los usuarioss:', users)
+    res.status(200).render('adminManageUsers', { users, user });
+});
+
+router.get('/uploadDocuments', accessMiddleware(['user']), async (req, res) => {
+    let user = req.session.existUser
+    let userId = req.params.uid || req.session.existUser._id
+    console.log('uid:', req.params.uid, 'session id:', req.session.existUser)
+    res.status(200).render('uploadDocuments', { user, userId })
 })

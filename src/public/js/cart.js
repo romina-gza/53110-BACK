@@ -1,6 +1,6 @@
-import { logger } from "../../utils"
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('hello??')
     const userCartId = document.getElementById('userCartId')
     document.querySelectorAll('.less-button').forEach(button => {
         button.addEventListener('click', () => {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Producto agregado al carrito')
                 }
             } catch (err) {
-                logger.fatal(`El error al agregar al carrito, en '.add-to-cart': ${err}`)
+                console.log(`El error al agregar al carrito, en '.add-to-cart': ${err}`)
                 return err
             }
         })
