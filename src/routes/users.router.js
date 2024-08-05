@@ -1,8 +1,6 @@
 import { Router } from 'express'
 import UsersController from '../controller/users.controller.js'
-import { accessMiddleware } from '../middleware/access.js'
 import { upload } from '../utils.js'
-import { auth } from '../middleware/auth.js'
 
 
 export const router = Router()
@@ -30,3 +28,7 @@ router.put('/premium/:uid', UsersController.updateUserRoleToPremium);
 
 // premium + multer
 router.post('/:uid/documents', upload.array('documents'), UsersController.uploadDocuments)
+
+
+// Ruta para crear un usuario y asignarle un carrito
+router.post('/create', UsersController.createUser);

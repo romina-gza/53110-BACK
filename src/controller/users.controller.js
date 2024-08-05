@@ -20,9 +20,9 @@ export default class UsersController {
     static getUser = async (req, res) => {
         try {
             const { userId } = req.params
-            await userService.createCartForUser(userId)
+            let createdCart = await userService.createCartForUser(userId)
             res.setHeader('Content-Type', 'application/json')
-            res.status(201).json('Carrito creado y asociado al usuario')
+            res.status(201).json({message: `Carrito creado y asociado al usuario: ${createdCart}`})
         } catch (err) {
             logger.fatal(`Error desde 'users', en 'getUser'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
@@ -33,12 +33,12 @@ export default class UsersController {
     static createUser = async (req, res) => {
         try {
             const { first_name, last_name, age, email, password, role } = req.body;
-            const newUser = await usersManager.createUser({ first_name, last_name, age, email, password, role });
+            const newUser = await userService.createUser({ first_name, last_name, age, email, password, role });
             
             await cartsServices.createCartForUser(newUser._id);
             
-            res.status(201).json({ message: 'Usuario creado y carrito asignado', user: newUser });
-        } catch (error) {
+            res.status(201).json({ message: 'Usuario creado. ', user: newUser });
+        } catch (err) {
             logger.fatal(`Error desde 'users', en 'createUser'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
             res.status(500).json({ message: `Error desde 'users', en 'createUser'. El error: ${err}` });
@@ -149,14 +149,15 @@ export default class UsersController {
                 for (const user of inactiveUsers) {
                     await sendUserDeletionEmail(user.email, user.first_name);
                 }
-                req.logger(`${inactiveUsers.length} users eliminados debido a inactividad.`)
-            } else {
-                res.setHeader('Content-Type', 'application/json')
-                res.status(200).json({ message: 'No se encontraron usuarios inactivos.' })
+                    req.logger.info(`Usuarios eliminados debido a inactividad: ${inactiveUsers.length}`)
+                    res.setHeader('Content-Type', 'application/json')
+                    return res.status(200).json({ message: `Usuarios eliminados debido a inactividad: ${inactiveUsers.length}` })
             }
+            res.setHeader('Content-Type', 'application/json')
+            res.status(200).json({ message: 'No se encontraron usuarios inactivos.' })
         } catch (err) {
             res.setHeader('Content-Type', 'application/json')
-            res.status(500).json({ error: 'Error al eliminar ususarios no activos', detalle: err });
+            res.status(500).json({ error: `Error al eliminar ususarios no activos.detalle: ${err}` });
         }
     }
     

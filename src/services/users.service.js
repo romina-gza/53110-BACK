@@ -32,6 +32,14 @@ class UserService {
             return err
         }
     }
+
+    async createCartForUser (userId) {
+        try {
+            return await this.UserService.createCartForUser(userId)
+        } catch (error) {
+            return error
+        }
+    }
     async getUserWithCart (userId) {
         try {
             return await this.UserService.getUserWithCart(userId)

@@ -1,4 +1,5 @@
 import { logger } from "../utils.js"
+import { cartsModel } from "./model/carts.model.js"
 import { usersModel } from "./model/users.model.js"
 
 export class UsersMongoDAO {
@@ -13,6 +14,21 @@ export class UsersMongoDAO {
     async createUser (user) {
         let newUser = await usersModel.create(user)
         return newUser.toJSON()
+    }
+
+    async createCartForUser (userId) {
+        try {
+            // Crea un nuevo carrito
+            const newCart = await cartsModel.create({ products: [], totalPrice: 0 });
+            
+            // Asocia el carrito al usuario
+            await usersModel.findByIdAndUpdate(userId, { cart: newCart._id });
+    
+            return newCart;
+        } catch (error) {
+            console.error('Error creando el carrito para el usuario:', error);
+            return error;
+        }
     }
 
     async getUserWithCart (cid) { 
