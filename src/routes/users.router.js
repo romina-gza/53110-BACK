@@ -26,22 +26,7 @@ router.put('/:cid', UsersController.updateUserRole)
 router.delete('/:cid', UsersController.deleteUserById)
 
 // multer + premium
-router.put('/premium/:uid', auth,  UsersController.updateUserRoleToPremium);
+router.put('/premium/:uid', UsersController.updateUserRoleToPremium);
 
-// Multer 
-/* 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        let folder = 'documents'; // Por defecto, carpeta de documentos
-        if (file.fieldname === 'profile') folder = 'profiles';
-        if (file.fieldname === 'product') folder = 'products';
-        cb(null, `uploads/${folder}`);
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
-    }
-}); 
-
-const upload = multer({ storage: storage }); */
 // premium + multer
 router.post('/:uid/documents', upload.array('documents'), UsersController.uploadDocuments)

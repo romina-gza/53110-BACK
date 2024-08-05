@@ -1,6 +1,5 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('hello??')
     const userCartId = document.getElementById('userCartId')
     document.querySelectorAll('.less-button').forEach(button => {
         button.addEventListener('click', () => {
@@ -42,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Producto agregado al carrito')
                 }
             } catch (err) {
-                console.log(`El error al agregar al carrito, en '.add-to-cart': ${err}`)
                 return err
             }
         })
@@ -58,12 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             if (response.ok) {
                 alert('Compra realizada con éxito');
-               // window.location.href = '/purchase-success'; // Redirige a una página de éxito de compra
             } else {
                 alert('Error al realizar la compra: ' + data.message);
             }
         } catch (err) {
-            console.error('Error:', err);
             alert('Error al realizar la compra');
             return err
         }

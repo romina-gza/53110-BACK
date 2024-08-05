@@ -1,29 +1,16 @@
-<h1>Crear Productos</h1>
+<h1>Crear Productos , {{user.first_name}}</h1>
 <section>
     <div>
         <form id="form" action="/realtimeproducts" method="POST">
             <input type="text" name="title" placeholder="Titulo del producto" >
             <input type="text" name="description" placeholder="Descripción" >
-            <input type="text" name="thumbnails" placeholder="Imagen" >
+            <input type="text" name="thumbnails" placeholder="Link de Imagen" >
             <input type="number" name="price" placeholder="Precio" >
             <input type="number" name="stock" placeholder="stock" >
             <input type="submit" value="Crear" >
         </form>
     </div>
-    <div>
-       {{!--  <div id="containerCards" class="container d-flex align-content-stretch flex-wrap justify-content-evenly">
-    {{#each product}}
-        <div class="card m-3" id="{{this._id}}" style="min-width:18rem; max-width: 18rem;">
-            <img src={{this.thumbnails.[0]}} class="card-img-top object-fit-cover border rounded" style="height: 100%;" alt={{this.description}}>
-            <div class="card-body">
-            <h5 class="card-title"> {{this.title}}</h5>
-            <p>Price: {{this.price}}</p>
-            <a href="#" class="btn btn-success">Agregar</a>
-            </div>
-        </div>        
-    {{/each}}
-        </div> --}}
-    </div>
+
 </section>
 <br>
 

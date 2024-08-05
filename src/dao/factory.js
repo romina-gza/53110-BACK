@@ -11,13 +11,6 @@ switch (config.PERSISTENCE) {
         
         break;
 
-    case "FS":
-        DAO.UsersDAO = (await import("./usersFsDAO.js")).UsersFsDAO
-        DAO.CartsDAO = (await import("./cartsFsDAO.js")).CartsFsDAO
-        DAO.ProductsDAO = (await import("./productFsDAO.js")).ProductsFsDAO
-
-        break;
-
     default:
         logger.info('Persistencia configurada..')
         process.exit()

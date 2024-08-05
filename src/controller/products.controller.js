@@ -46,8 +46,9 @@ export default class ProductsController {
     }
     // post
     static createProducts = async (req, res) => {
+        let { title, description, thumbnails, price, stock, status, category} = req.body
+
         try {
-            let { title, description, thumbnails, price, stock, status, category } = req.body
             // Obtiene el último código y generauno nuevo
             let lastCode = await productsServices.getLastProductCode();
             let code = lastCode + 1;
@@ -55,21 +56,22 @@ export default class ProductsController {
             if ( !title || !description || !thumbnails || !price || !stock || !category ) {
                 res.setHeader('Content-Type', 'application/json')
                 return res.status(400).json( { "message": 'todos los campos con "*" deben ser completados.' } )
-            }  
-/*            if (!thumbnails || thumbnails.trim() === '') {
-                thumbnails = "https://craftypixels.com/placeholder-image/250x200/7030f0/2d1b52&text=250x200"
-            } */
+            }              
+
             const newProduct = {
                 title, 
                 description, 
                 thumbnails: [thumbnails], 
                 price, stock, code, 
                 status: status.trim() !== undefined ? status : true, 
-                category 
+                category
             }
+
             let createdProduct = await productsServices.createProducts(newProduct)
+            
             // Emite evento de webSocket con el nuevo producto
             req.io.emit('nuevoProducto', createdProduct);
+
             res.setHeader('Content-Type', 'application/json')
             res.status(201).json( newProduct )
         } catch (err) {
@@ -99,19 +101,7 @@ export default class ProductsController {
                 res.setHeader('Content-Type', 'application/json')
                 return res.status(400).json({"message": "El id debe ser un número"})
             }
-            /* 
-            // cuando listProducts era el manager
-            let list = await listProducts.getProducts()
-            // busca id si no existe devuelve mensaje
-            let notFound= list.find(obj => obj.id === pid)
-            if (!notFound) {
-                res.setHeader('Content-Type', 'application/json')
-                return res.status(400).json({"message": "El id no existe"})
-            }
-            await list.deleteProducts(pid)
-                res.setHeader('Content-Type', 'application/json')
-                res.status(200).json( { "message": "solcitud exitosa!" } ) */
-            //return await listProducts.deleteProducts(pid)
+
             return await productsServices.deleteProductById(pid)
         } catch (err) {
             req.logger.fatal(`Error desde 'products', en 'deleteProductById'. El error: ${err}`)

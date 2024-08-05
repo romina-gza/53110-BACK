@@ -16,14 +16,10 @@ export default class CartsController {
     }
     static getCartById = async ( req, res ) => {
         try {
-            let cid = Number(req.params.cid)
-                if (isNaN(cid)) {
-                res.setHeader("Content-Type", "application/json")
-                return res.status(400).json({ message: "El id debe ser un número" })
-                }
+            let cid = req.params.cid
+
             let data = await cartsServices.getCartsById(cid)
-                if (!data) {
-                res.setHeader("Content-Type", "application/json")
+                if (!data || data.name == "CastError") {
                 return res.status(400).json({ message: `El id: ${cid} no existe.` })
                 }
 
@@ -38,11 +34,16 @@ export default class CartsController {
     
     static addToCart = async (req, res) => {
         try {
-            const { productId, quantity } = req.body
-            const cartId = req.cartId
-            const updatedCart = await cartsServices.addToCart(cartId, productId, quantity)
             
-            await cartsServices.calculateTotalPrice(req.session.existUser.cart)
+            const { quantity } = req.body
+            const {cid}  = req.params 
+            const {productId} = req.params 
+
+            const updatedCart = await cartsServices.addToCart(cid, productId, quantity)
+
+
+            await cartsServices.calculateTotalPrice(cid)
+            
             res.status(200).json(updatedCart)
         } catch (err) {
             req.logger.fatal(`Error en 'Carts' al momento de 'addToCart'. El error: ${err}`)
@@ -54,11 +55,10 @@ export default class CartsController {
         try {
             let { cid, pid } = req.params
             await cartsServices.deleteProduct(cid, pid)
-
-            await cartsServices.calculateTotalPrice(req.session.existUser.cart)
+            await cartsServices.calculateTotalPrice(cid)
             
             res.setHeader('Content-Type','application/json')
-            res.status(201).json({ message: 'Producto eliminado del carrito:', cid })
+            res.status(201).json({ message: `Producto: ${pid} eliminado del carrito: ${cid}` })
         } catch (err) {
             req.logger.fatal(`Error en 'Carts' al momento de 'deleteProduct'. El error: ${err}`)
             res.setHeader('Content-Type','application/json')
@@ -69,6 +69,7 @@ export default class CartsController {
         try {
             const { cid } = req.params
             const newProducts = req.body
+
             await cartsServices.updateACart(cid, newProducts)
             res.setHeader('Content-Type','application/json')
             res.status(201).json({ message: 'Carrito actualizado:', cid })
@@ -82,12 +83,17 @@ export default class CartsController {
         try {
             const { cid, pid } = req.params
             const { quantity } = req.body
-            await cartsServices.updateQuantity(cid,pid, quantity)
 
-            await cartsServices.calculateTotalPrice(req.session.existUser.cart)
+            if (!quantity) {
+                return res.status(400).json({ message: "Quantity is required" });
+            }
+            await cartsServices.updateQuantity(cid,pid, quantity)
+            
+            await cartsServices.calculateTotalPrice(cid)
+
 
             res.setHeader('Content-Type','application/json')
-            res.status(201).json({ message: 'Productos actualizado del carrito:', cid })
+            res.status(201).json({ message: 'Producto actualizado del carrito:', cid })
         } catch (err) {
             req.logger.fatal(`Error en 'Carts' al momento de 'updateQuantity'. El error: ${err}`)
             res.setHeader('Content-Type','application/json')
@@ -97,7 +103,9 @@ export default class CartsController {
     static deleteAllProducts = async ( req, res ) => {
         try {
             const { cid } = req.params
+
             await cartsServices.deleteAllProducts(cid)
+
             res.setHeader('Content-Type','application/json')
             res.status(201).json({ message: 'Productos eliminados del carrito:', cid })
         } catch (err) {
@@ -114,14 +122,13 @@ export default class CartsController {
 
             const userEmail = req.session.existUser.email
             let resp = await cartsServices.processPurchase(cartId, totalAmount, userEmail)
-            console.log(' controller RESP: ', resp)
             
             let yourTicket = resp.createdNewTicket
+            // devuelve productos no procesados 
             let notProcessed = resp.productsNotProcessed
             // datos importantes - reutilizar cuando crees la vista ticket.
             req.logger.info(`Este es su ticket: ${yourTicket}`)
-            console.log('It is notProcessed', notProcessed)
-
+            
             await sendEmail(userEmail, req.session.existUser.first_name, yourTicket._id, yourTicket.purchase_datetime)
             
             res.setHeader('Content-Type','application/json')

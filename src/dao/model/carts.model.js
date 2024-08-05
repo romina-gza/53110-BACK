@@ -22,7 +22,7 @@ const cartsSchema = new mongoose.Schema(
             required: true }
     },
     {
-        // timestamps: marca fecha de momento de creacion, actualizacion
+        // timestamps marca fecha de momento de creacion, actualizacion
         timestamps: true,
         versionKey: false
     }

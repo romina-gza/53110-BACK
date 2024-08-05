@@ -7,10 +7,12 @@
 ## Heramientas
     + Node JS
     + Express
+    + Multer
     + Passport
     + Sweet Alert
     + Mongo DB
     + Socket
+    + Winston
     + Nodemailer
 
 ## Frontend

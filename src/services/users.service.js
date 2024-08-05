@@ -44,8 +44,7 @@ class UserService {
         try {
             return await this.UserService.notActiveUsers(dateLimit);
         } catch (err) {
-            console.error('Error in userService while deleting inactive users:', err);
-            throw err;
+            return err
         }
     }
     
@@ -80,6 +79,12 @@ class UserService {
             throw err;
         }
     }
-    
+    async updateTopremium (uid) {
+        try {
+        return await this.UserService.updateTopremium(uid)
+    } catch (err) {
+        return err
+    }
+    }
 }
 export const userService = new UserService( new DAO.UsersDAO )

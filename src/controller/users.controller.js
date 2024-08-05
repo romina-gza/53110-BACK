@@ -8,13 +8,12 @@ export default class UsersController {
     static getAllUsers = async (req, res) => {
         try {
             const users = await userService.getAllUsers()
-            console.log('users??', users)
-            //// res.setHeader('Content-Type', 'application/json')
-            // res.status(201).json({message: 'Devuelve todos los usuarios', users})
+            res.setHeader('Content-Type', 'application/json')
+            res.status(201).json({message: 'Todos los usuarios', users})
         } catch (err) {
             logger.fatal(`Error desde 'users', en 'getAllUser'. El error: ${err}`)
-            // res.setHeader('Content-Type', 'application/json')
-            console.log('el errorr', err) // res.status(500).json('Error al obtener todos los usuarios')
+            res.setHeader('Content-Type', 'application/json')
+            res.status(500).json({message: `Error desde 'users', en 'getAllUser'. El error: ${err}`})
         }
     }
 
@@ -22,12 +21,12 @@ export default class UsersController {
         try {
             const { userId } = req.params
             await userService.createCartForUser(userId)
-            // res.setHeader('Content-Type', 'application/json')
-            // res.status(201).json('Carrito creado y asociado al usuario')
+            res.setHeader('Content-Type', 'application/json')
+            res.status(201).json('Carrito creado y asociado al usuario')
         } catch (err) {
             logger.fatal(`Error desde 'users', en 'getUser'. El error: ${err}`)
-            // res.setHeader('Content-Type', 'application/json')
-            console.log('el errorr', err) // res.status(500).json('Error al crear el carrito')
+            res.setHeader('Content-Type', 'application/json')
+            res.status(500).json({message:`Error desde 'users', en 'getUser'. El error: ${err}`})
         }
     }
 
@@ -38,10 +37,11 @@ export default class UsersController {
             
             await cartsServices.createCartForUser(newUser._id);
             
-           // res.status(201).json({ message: 'Usuario creado y carrito asignado', user: newUser });
+            res.status(201).json({ message: 'Usuario creado y carrito asignado', user: newUser });
         } catch (error) {
             logger.fatal(`Error desde 'users', en 'createUser'. El error: ${err}`)
-            console.log('el errorr', err) // res.status(500).json({ message: 'Error al crear usuario', error });
+            res.setHeader('Content-Type', 'application/json')
+            res.status(500).json({ message: `Error desde 'users', en 'createUser'. El error: ${err}` });
         }
     }
 
@@ -49,12 +49,12 @@ export default class UsersController {
         try {
             const { userId } = req.params
             const user = await userService.getUserWithCart(userId)
-            // res.setHeader('Content-Type', 'application/json')
-            // res.status(200).json(user)
+            res.setHeader('Content-Type', 'application/json')
+            res.status(200).json({user})
         } catch (err) {
             logger.fatal(`Error desde 'users', en 'getUserWithCart'. El error: ${err}`)
-            // res.setHeader('Content-Type', 'application/json')
-            console.log('el errorr', err) // res.status(500).json('Error al obtener el usuario con carrito')
+            res.setHeader('Content-Type', 'application/json')
+            res.status(500).json('Error al obtener el usuario con carrito')
         }
     }
 
@@ -98,12 +98,10 @@ export default class UsersController {
             if (!validatePassword(existUser, password)) {
                 return done(null, false)
             }
-            // nuevo 31-07-24 22:50hs
             existUser.last_connection = new Date()
 
             // actualiza ultima conexion del user
-            let result = await userService.updateLastConnection(existUser._id);
-            console.log('resultado 👀:', result)
+            await userService.updateLastConnection(existUser._id);
 
             return done(null, existUser)
         } catch (err) {
@@ -141,22 +139,23 @@ export default class UsersController {
 
     static notActiveUsers = async (req, res) => {
         try {
-            const daysBefore = 0.00347; // For testing with 5 minutes
+            const daysBefore = 0.00347; // Para testeos con 5 minutes - mas eficiente
             const dateLimit = new Date();
             dateLimit.setMinutes(dateLimit.getMinutes() - daysBefore * 24 * 60);
     
             const inactiveUsers = await userService.notActiveUsers(dateLimit);
-            console.log('Inactive users to delete:', inactiveUsers);
     
             if (inactiveUsers.length > 0) {
                 for (const user of inactiveUsers) {
                     await sendUserDeletionEmail(user.email, user.first_name);
                 }
-                console.log(`${inactiveUsers.length} users deleted due to inactivity.`)
+                req.logger(`${inactiveUsers.length} users eliminados debido a inactividad.`)
             } else {
+                res.setHeader('Content-Type', 'application/json')
                 res.status(200).json({ message: 'No se encontraron usuarios inactivos.' })
             }
         } catch (err) {
+            res.setHeader('Content-Type', 'application/json')
             res.status(500).json({ error: 'Error al eliminar ususarios no activos', detalle: err });
         }
     }
@@ -167,7 +166,6 @@ export default class UsersController {
             const { newRole } = req.body;
             const existCid = await userService.getUserId(cid)
             if (!existCid) {
-                console.log(`cid: ${cid};`)
                 return res.status(400).json({ error: `Usuario no encontrado: ${cid}`});
             }
 
@@ -178,11 +176,14 @@ export default class UsersController {
             const updatedUser = await userService.updateUserRole(cid, newRole);
         
             if (updatedUser) {
+                res.setHeader('Content-Type', 'application/json')
                 return res.status(200).json({ message: 'Rol actualizado', user: updatedUser });
             } else {
+                res.setHeader('Content-Type', 'application/json')
                 return res.status(404).json({ message: 'Usuario no encontrado' });
             }
         } catch (err) {
+            res.setHeader('Content-Type', 'application/json')
             res.status(500).json({ error: 'Error al actualizar el rol de usuario', detalle: err });
         }
     }
@@ -206,7 +207,6 @@ export default class UsersController {
         }
     }
 
-    // hoy 3-08-24
     static uploadDocuments = async (req, res) => {
         try {
             const { uid } = req.params;
@@ -214,8 +214,6 @@ export default class UsersController {
 
             // Verificar si el usuario es premium
             if (!uid || !existUser) {
-                console.log('es UID:', uid)
-                console.log('es EXISTUSER:', existUser)
                 return res.status(400).json({ message: 'Solo los usuarios registrados y logueados pueden solicitar ser premium.' });
             }
             const files = req.files;
@@ -229,11 +227,14 @@ export default class UsersController {
                 reference: file.path
             }));
     
-            await userService.updateUserDocuments(uid, documents);
-    
-            //res.status(200).json({ message: 'Documentos subidos con éxito.' });
-            console.log('message:', 'Documentos subidos con éxito.')
-            res.status(200).redirect('/profile');
+            let UPD = await userService.updateUserDocuments(uid, documents);
+            if (UPD) {
+                await userService.updateTopremium(uid)
+            }
+            req.logger.info('Documentos subidos con exito. Ya eres premium, vuelve a iniciar sesion!')
+
+            res.setHeader('Content-Type', 'application/json')
+            res.status(200).redirect('/login');
         } catch (err) {
             res.status(500).json({ error: 'Error al subir documentos', detalle: err });
         }
@@ -244,23 +245,13 @@ export default class UsersController {
             const { uid } = req.params;
             // obtiene user by id, pifié en el nombre.
             const user = await userService.getUserId(uid);
-            console.log('USERR en <updateUserRoleToPremium> es -->', user)
-            
-            if (!user) {
-                return res.status(400).json({ message: 'Necesitas estar logueado para subir de nivel y ser premium.' });
-            }
 
             const requiredDocs = ['Identificación', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
             const hasAllDocuments = requiredDocs.every(doc => user.documents.some(d => d.name === doc));
+            let UTP= await userService.updateTopremium(uid)
     
-            if (!hasAllDocuments) {
-                return res.status(400).json({ message: 'Documentación incompleta para cambiar a premium.' });
-            }
-    
-            user.role = 'premium';
-            await user.save();
-    
-            res.status(200).json({ message: 'Usuario actualizado a premium.', user });
+            res.status(200).json({ message: 'Usuario actualizado a premium.', newRole : UTP }); 
+
         } catch (err) {
             res.status(500).json({ error: 'Error al actualizar rol de usuario', detalle: err });
         }

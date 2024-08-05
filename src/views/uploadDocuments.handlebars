@@ -8,6 +8,7 @@
     <h3>Subir Documentos</h3>
     <div class="mb-3" style="width: 90%;display:flex;justify-content:center;">
         <form action="/api/users/{{userId}}/documents" style="width: 90%;" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="userId" value="{{userId}}">
             <label class="form-label" > <b>Identificación:</b></label>
             <input type="file" name="documents" accept=".pdf,.jpg,.png" class="form-control" required>
             <label class="form-label" > <b>Comprobante de domicilio:</b></label>
@@ -15,7 +16,7 @@
             <label class="form-label" > <b>Comprobante de estado de cuenta:</b></label>
             <input type="file" name="documents" accept=".pdf,.jpg,.png" class="form-control" required>
             <br>
-            <button type="submit" class="btn btn-success"><b>Subir</b></button>
+            <button id="uploadForm submit-button" type="submit" class="btn btn-success" ><b>Subir</b></button>
         </form>
             <div id="loadingMessage" style="display: none;"><p>Subiendo... Archivos</p></div>
 

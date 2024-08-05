@@ -54,6 +54,7 @@ class ProductsServices {
             return err
         }
     }
+
 }
 
 export const productsServices = new ProductsServices( new DAO.ProductsDAO )

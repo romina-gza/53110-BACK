@@ -1,6 +1,8 @@
 import { cartsModel } from "./model/carts.model.js"
 import { ticketModel } from "./model/ticket.model.js"
 import { usersModel } from "./model/users.model.js"
+import mongoose from "mongoose"
+
 
 export class CartsMongoDAO {
     async createCart (products) {
@@ -50,6 +52,7 @@ export class CartsMongoDAO {
     }
     async updateACart (cid, newProducts) {
         try {
+
             return await cartsModel.updateOne(
                 cid,
                 { $set: { products: newProducts } }, 
@@ -73,11 +76,14 @@ export class CartsMongoDAO {
     }
     async deleteProduct(cid, pid) {
         try {
-            return await cartsModel.findOneAndUpdate(
-                cid,
-                { $pull: { 'products': { productId: pid } } },
+            const cartId = cid;
+            const prodId = pid 
+            let result = await cartsModel.findOneAndUpdate(
+                { _id: cartId},
+                { $pull: { products: { productId: prodId} } },
                 { new: true }
                 )
+            return result
         } catch (err) {
             return err
         }
@@ -114,7 +120,6 @@ export class CartsMongoDAO {
             if (!cart) {
                 throw new Error('Cart not found')
             } 
-        
             let totalPrice = 0
         
             for (const item of cart.products) {
@@ -122,7 +127,7 @@ export class CartsMongoDAO {
                         totalPrice += item.productId.price * item.quantity
                     }
             }
-        
+            
             cart.totalPrice = totalPrice
             await cart.save()
             return cart.totalPrice

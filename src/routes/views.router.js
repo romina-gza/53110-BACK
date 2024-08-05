@@ -1,18 +1,15 @@
 import { Router } from "express";
 import { productsModel } from "../dao/model/products.model.js";
-import __dirname, { logger } from "../utils.js"
-import path from "path"
+import __dirname from "../utils.js"
 
 import { auth } from "../middleware/auth.js";
 import { productsServices } from "../services/products.service.js";
-import ProductsController from "../controller/products.controller.js";
 import { cartsServices } from "../services/carts.service.js";
 import { UserDTO } from "../dto/users.dto.js";
 import { accessMiddleware } from "../middleware/access.js";
 import UsersController from "../controller/users.controller.js";
 import { userService } from "../services/users.service.js";
 
-let pathFile = path.join(__dirname, ".", "data", "products.json")
 
 export const router = Router()
 
@@ -74,12 +71,10 @@ router.get('/', async (req,res)=> {
 
 router.get("/realtimeproducts", accessMiddleware(["admin","premium"]),async (req, res) => {
     let user = req.session.existUser
-
     let product = await productsServices.getAllProducts()
     res.status(200).render("realTimeProducts", {user, product} )
 })
 
-router.post("/realtimeproducts", ProductsController.createProducts) 
 router.delete('/delete', UsersController.notActiveUsers)
 
 router.get('/chat', auth, accessMiddleware(['user']), (req, res)=>{
@@ -195,13 +190,11 @@ router.get('/adminManageUsers', accessMiddleware(['admin']), async (req, res) =>
     let users = await userService.getAllUsers()
     let user = req.session.existUser
     
-    console.log('✨los usuarioss:', users)
     res.status(200).render('adminManageUsers', { users, user });
 });
 
 router.get('/uploadDocuments', accessMiddleware(['user']), async (req, res) => {
     let user = req.session.existUser
     let userId = req.params.uid || req.session.existUser._id
-    console.log('uid:', req.params.uid, 'session id:', req.session.existUser)
     res.status(200).render('uploadDocuments', { user, userId })
 })

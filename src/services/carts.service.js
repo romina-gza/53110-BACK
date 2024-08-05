@@ -56,7 +56,7 @@ class CartsServices {
     }
     async deleteAllProducts (cid) {
         try {
-            return await this.CartsServices({ _id: cid })
+            return await this.CartsServices.deleteAllProducts({ _id: cid })
         } catch (err) {
             return err
         }

@@ -27,10 +27,11 @@ const productsSchema = new mongoose.Schema(
             unique: true
         },
         category: String
-    },
+        },
     {
         timestamps: true,
-        versionKey: false
+        versionKey: false,
+        strict:false
     }
 )
 

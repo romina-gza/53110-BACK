@@ -1,4 +1,4 @@
-// nuevo manager
+import { logger } from "../utils.js"
 import { usersModel } from "./model/users.model.js"
 
 export class UsersMongoDAO {
@@ -21,14 +21,10 @@ export class UsersMongoDAO {
 
     async notActiveUsers(dateLimit) {
         try {
-            console.log('Date limit:', dateLimit);
             const usersToDelete = await usersModel.find({ last_connection: { $lt: dateLimit } }).lean();
-            console.log('users to delete:', usersToDelete)
-            const result = await usersModel.deleteMany({ last_connection: { $lt: dateLimit } });
-            console.log('Users deleted:', result.deletedCount);
+            await usersModel.deleteMany({ last_connection: { $lt: dateLimit } });
             return usersToDelete;
         } catch (err) {
-            console.error('Error deleting inactive users:', err);
             return err;
         }
     }
@@ -45,7 +41,6 @@ export class UsersMongoDAO {
         try {
             return await usersModel.findByIdAndUpdate( {_id: cid}, { role: newRole }, { new: true }).lean()
         } catch (err) {
-            console.error('Error al actualizar el rol del usario. Error:', err);
             return err
         }
     }
@@ -53,10 +48,9 @@ export class UsersMongoDAO {
     async deleteUserById(cid) {
         try {
             const resultad = await usersModel.findByIdAndDelete(cid).lean();
-            console.log('resultad es:', resultad)
             return resultad
         } catch (err) {
-            console.error('Error al eliminar al usuario. Error:', err);
+            logger.error(`Error al eliminar al usuario. Error: ${err}`);
             return err
         }
     }
@@ -64,11 +58,23 @@ export class UsersMongoDAO {
     async updateUserDocuments(uid, documents) {
         try {
             const user = await usersModel.findById(uid);
-            //if (!user) throw new Error('Usuario no encontrado');
             user.documents.push(...documents);
             return await user.save();
         } catch (err) {
             return err;
         }
+        
     }
+    async updateTopremium (uid) {
+        try {
+            const user = await usersModel.findById(uid)
+
+            user.role = 'premium';
+            await user.save();
+            return user.role
+        } catch (err) {
+            return err
+        }
+    }
+
 }

@@ -12,7 +12,6 @@ const cartIdMiddleware = (req, res, next) => {
         next()
     } catch (err) {
         logger.error(`el error desde cart middleware: ${err}`)
-        //res.status(500).send(`el error desde cart middleware: ${err}`)
     }
 }
 

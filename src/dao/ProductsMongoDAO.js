@@ -1,4 +1,5 @@
 import { productsModel } from "./model/products.model.js";
+import { usersModel } from "./model/users.model.js";
 export class ProductsMongoDAO {
     async createProducts (newProduct) {
         try {
@@ -40,4 +41,5 @@ export class ProductsMongoDAO {
         const lastProduct = await productsModel.findOne({}).sort({ code: -1 }).exec();
         return lastProduct ? lastProduct.code : 0;
     }
+
 }

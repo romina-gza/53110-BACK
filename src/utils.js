@@ -15,35 +15,41 @@ export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSy
 
 export const validatePassword = (user, password) => bcrypt.compareSync(password, user.password)
 
-// Multer 
 const ensureDirExists = (dirPath) => {
     if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true })
+        fs.mkdirSync(dirPath, { recursive: true });
     }
 }
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        let folder = 'uploads/others'
+        let folder = 'src/uploads/others';
 
-        if (file.fieldname === 'profile') {
-            folder = 'uploads/profiles'
-        } else if (file.fieldname === 'product') {
-            folder = 'uploads/products'
-        } else if (file.fieldname === 'document') {
-            folder = 'uploads/documents'
+        // Asigna la carpeta correspondiente según el tipo de archivo (fieldname)
+        switch(file.fieldname) {
+            case 'profile':
+                folder = 'src/uploads/profiles';
+                break;
+            case 'product':
+                folder = 'src/uploads/products';
+                break;
+            case 'documents':
+                folder = 'src/uploads/documents';
+                break;
         }
 
-        // Asegura que la carpeta exista
-        ensureDirExists(folder)
-        cb(null, folder)
+        // Asegura que la carpeta exista antes de guardar el archivo
+        ensureDirExists(folder);
+        cb(null, folder);
     },
-    filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`)
+    filename: (req, file, cb) => {
+        // Genera un nombre único para el archivo basado en el timestamp y el nombre original
+        cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
     }
-})
+});
 
-export const upload = multer({ storage: storage })
+// Exporta la configuración de Multer
+export const upload = multer({ storage: storage });
 
 // logger
 const customLevels = {
