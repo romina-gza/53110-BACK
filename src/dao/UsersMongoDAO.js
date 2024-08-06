@@ -8,7 +8,11 @@ export class UsersMongoDAO {
     }
 
     async getBy (filter) {
-        return await usersModel.findOne(filter).lean()
+        try {
+            return await usersModel.findOne(filter).lean()            
+        } catch (error) {
+            return error
+        }
     }
 
     async createUser (user) {
@@ -26,13 +30,17 @@ export class UsersMongoDAO {
     
             return newCart;
         } catch (error) {
-            console.error('Error creando el carrito para el usuario:', error);
             return error;
         }
     }
 
     async getUserWithCart (cid) { 
-        return await usersModel.findById(cid).populate('cart')
+        try {
+            return await usersModel.findById(cid).populate('cart.products')            
+
+        } catch (error) {
+            return error
+        }
     }
 
     async notActiveUsers(dateLimit) {

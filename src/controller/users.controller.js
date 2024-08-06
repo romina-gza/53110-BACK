@@ -1,3 +1,4 @@
+import multer from "multer"
 import { config } from "../config/config.js"
 import { sendUserDeletionEmail } from "../email.js"
 import { cartsServices } from "../services/carts.service.js"
@@ -49,8 +50,10 @@ export default class UsersController {
         try {
             const { userId } = req.params
             const user = await userService.getUserWithCart(userId)
+            if (!user) {
+            }
             res.setHeader('Content-Type', 'application/json')
-            res.status(200).json({user})
+            res.status(200).json({message: `Usuario: ${user}`})
         } catch (err) {
             logger.fatal(`Error desde 'users', en 'getUserWithCart'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
@@ -166,7 +169,7 @@ export default class UsersController {
             const { cid } = req.params;
             const { newRole } = req.body;
             const existCid = await userService.getUserId(cid)
-            if (!existCid) {
+            if (!existCid || existCid.name == "CastError") {
                 return res.status(400).json({ error: `Usuario no encontrado: ${cid}`});
             }
 
@@ -192,10 +195,10 @@ export default class UsersController {
     static deleteUserById = async (req, res) => {
         try {
             const { cid } = req.params
-            const existCid = await userService.getUserEmail(cid.email)
+            const existCid = await userService.getUserId(cid)
             const deletedUser = await userService.deleteUserById(cid);
-            
-            if (!deletedUser || !existCid) {
+
+            if ( !cid || !deletedUser || !existCid || deletedUser.name == "CastError" ) {
                 logger.fatal(`usuario inexitente: ${deletedUser}`)
                 logger.error(`ID de usuario no encontrado: ${existCid}`)
                 return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -213,9 +216,9 @@ export default class UsersController {
             const { uid } = req.params;
             const existUser = await userService.getUserId(uid)
 
-            // Verificar si el usuario es premium
-            if (!uid || !existUser) {
-                return res.status(400).json({ message: 'Solo los usuarios registrados y logueados pueden solicitar ser premium.' });
+            // Verificar si es usuario 
+            if (!uid || !existUser || existUser.name == "CastError") {
+                return res.status(400).json({ message: 'Solo los usuarios registrados y logueados pueden solicitar ser premium. Verifique que el ID sea el correcto.' });
             }
             const files = req.files;
     
@@ -235,9 +238,15 @@ export default class UsersController {
             req.logger.info('Documentos subidos con exito. Ya eres premium, vuelve a iniciar sesion!')
 
             res.setHeader('Content-Type', 'application/json')
-            res.status(200).redirect('/login');
+            res.status(200).json({message: `Documentos subidos con exito.`})
+            // res.status(200).redirect('/login');
         } catch (err) {
-            res.status(500).json({ error: 'Error al subir documentos', detalle: err });
+            //res.status(500).json({ error: 'Error al subir documentos', detalle: err });
+            if (err instanceof multer.MulterError && err.code === 'LIMIT_UNEXPECTED_FILE') {
+                res.status(400).json({ error: 'Se subieron campos no esperados.', detalle: err.message });
+            } else {
+                res.status(500).json({ error: 'Error al subir documentos', detalle: err.message });
+            }
         }
     }
 
@@ -245,10 +254,15 @@ export default class UsersController {
         try {
             const { uid } = req.params;
             // obtiene user by id, pifié en el nombre.
-            const user = await userService.getUserId(uid);
+            const user = await userService.getUserId(uid)
+
+            if ( !uid || user.name == "CastError" ) {
+                logger.error(`ID de usuario no encontrado: ${uid}`)
+                return res.status(404).json({ message: `Usuario no encontrado ${uid}` });
+            }
 
             const requiredDocs = ['Identificación', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
-            const hasAllDocuments = requiredDocs.every(doc => user.documents.some(d => d.name === doc));
+            requiredDocs.every(doc => user.documents.some(d => d.name === doc));
             let UTP= await userService.updateTopremium(uid)
     
             res.status(200).json({ message: 'Usuario actualizado a premium.', newRole : UTP }); 

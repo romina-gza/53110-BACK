@@ -23,7 +23,7 @@ router.put('/:cid', UsersController.updateUserRole)
 // Ruta para eliminar usuario 
 router.delete('/:cid', UsersController.deleteUserById)
 
-// multer + premium
+// User a premium sin docs multer
 router.put('/premium/:uid', UsersController.updateUserRoleToPremium);
 
 // premium + multer
