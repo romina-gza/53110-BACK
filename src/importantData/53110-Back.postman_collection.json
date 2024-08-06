@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "153362d8-55e8-4624-8286-41a160ca6ad5",
+		"name": "53110-Back",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28193010"
+	},
+	"item": [
+		{
+			"name": "apiProducts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"nuevo test8\",\r\n    \"description\": \"test8 description\",\r\n    \"thumbnails\":[\"link\", \"nuevo\"],\r\n    \"code\":13,\r\n    \"stock\": 1,\r\n    \"price\":1,\r\n    \"category\": \"cats\",\r\n    \"status\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products"
+			},
+			"response": []
+		},
+		{
+			"name": "apiProducts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/products/3"
+			},
+			"response": []
+		},
+		{
+			"name": "apiProducts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products/12"
+			},
+			"response": []
+		},
+		{
+			"name": "apiProducts",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"nuevo test8\",\r\n    \"description\": \"test8 description\",\r\n    \"thumbnails\":[\"link\", \"nuevo\"],\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Sessions register desde x-www-form-urlencoded",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "first_name",
+							"value": "ninaa",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "ninaa@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/sessions/register"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Sessions login desde x-www-form-urlencoded",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ninaa@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/sessions/login"
+			},
+			"response": []
+		},
+		{
+			"name": "GETById de Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8"
+			},
+			"response": []
+		},
+		{
+			"name": "ADDtocart de Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quantity\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8/product/6617570266b5b1224406abb0"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  pid de Cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/1/product/3"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  todos los productos de Cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/api/carts/66afe0136a58f18505333ce9"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT actualiza carrito usar array en body.",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/carts/66afe0136a58f18505333ce9/product/6679da48afc6612012747dd5"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT actualiza carrito usar array en body",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n        { \"productId\": \"6612ed6591401df3da895551\", \"quantity\":1 },\r\n        { \"productId\": \"6612ecf591401df3da895550\", \"quantity\":2 }\r\n]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/carts/66b00fb63268ce73e59e1f5f"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE (api/users) elimina user inactivos de Users",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/api/sessions/delete"
+			},
+			"response": []
+		},
+		{
+			"name": "POST (api/users) crear un usuario de Users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"maru\",\r\n    \"last_name\": \"chan\",\r\n    \"age\": 10,\r\n    \"email\": \"maruchan@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"role\": \"user\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/users/create"
+			},
+			"response": []
+		},
+		{
+			"name": "POST (api/users) crear cart a un usuario de Users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"maru\",\r\n    \"last_name\": \"chan\",\r\n    \"age\": 10,\r\n    \"email\": \"maruchan@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"role\": \"user\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/users/66b0d3233297f7093bc646b5/cart"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Users crear docs al user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "documents",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/users/66b16449616fc4d6c1b705b8/documents"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  de Users eliminar user utilizando el ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/api/users/66b0cef6070ca0f96c8ee69d"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT de Users - actualiza el role de usuario con  uid",
+			"request": {
+				"method": "PUT",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET de Users Obtiene todos los users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/users/"
+			},
+			"response": []
+		},
+		{
+			"name": "GET de Users devuelve un user utilizando su id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/users/66b0cef6070ca0f96c8ee69d"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT de User actualiza a premium luego de archivos",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": "http://localhost:8080/api/users/premium/66b1643b616fc4d6c1b705ae"
+			},
+			"response": []
+		}
+	]
+}

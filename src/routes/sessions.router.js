@@ -25,6 +25,7 @@ sessionsRouter.post('/login', passport.authenticate('login', { failureRedirect: 
     delete existUser.password
     req.session.existUser = existUser
     try {
+        req.logger.info(`message from /login: ID del user${existUser._id}`)
         res.setHeader('Content-Type', 'application/text')
         return res.redirect('http://localhost:8080/products')
     } catch (err) {

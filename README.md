@@ -9,6 +9,9 @@
 Los datos de almenos 20 productos se encuentran en la carpeta "importantData" (dentro de src) en el file: "ecommerce.products.json" (éste fue importado desde mongo DB)
 ### Datos de users
 Los datos de users se encuentran dentro la carpeta "importantData" (dentro de src) en el file: "dataForUsers.js" (los objetos {} son ejemplos que pueden usarse al crear users.)
+### Postman a importar
+AL no llegar con la documentacion, y teniendo en cuenta que es algo que  podria pasar en un trabajo real, dejo como una opcion de documentacion en la carpeta "importantData" (dentro de src) el file: "53110-Back.postman_collection.json" una collection que exporto desde mi postman. Para utilizarlo o mas bien, importarlo, entras a postman y donde sale el icon de persona (o de usuario) " :bust_in_silhouette: My Workspace " al lado tendrás dos botones "New" e "Import". Y luego solo debes hacer un drag and drop luego de haber hecho clicck en "Import". 
+
 
 ## Heramientas
     + Node JS
