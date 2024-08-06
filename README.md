@@ -4,8 +4,11 @@
  - **Tema del Proyecto:** "Petshop & Veterinaria"
  - **Autor:** Romina Galarza
 
-## Datos de productos
-Los datos de almenos 20 productos se encuentran en la carpeta "importantData" (al mismo nivel de src) el file: "ecommerce.products.json" (éste fue importado desde mongo DB)
+## Datos importates para uso con fin de testeo
+### Datos de productos
+Los datos de almenos 20 productos se encuentran en la carpeta "importantData" (dentro de src) en el file: "ecommerce.products.json" (éste fue importado desde mongo DB)
+### Datos de users
+Los datos de users se encuentran dentro la carpeta "importantData" (dentro de src) en el file: "dataForUsers.js" (los objetos {} son ejemplos que pueden usarse al crear users.)
 
 ## Heramientas
     + Node JS
