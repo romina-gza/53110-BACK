@@ -1,0 +1,403 @@
+[{
+  "_id": {
+    "$oid": "6612ebe991401df3da89554f"
+  },
+  "title": "raton con catnip",
+  "price": 500,
+  "code": 1,
+  "category": "gatos",
+  "description": "Raton rosado con catnip. Medidas: 5,35cm.",
+  "status": true,
+  "stock": 10,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1516750105099-4b8a83e217ee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "updatedAt": {
+    "$date": "2024-07-27T20:18:27.636Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6612ecf591401df3da895550"
+  },
+  "title": "arbol rascador",
+  "price": 4000,
+  "code": 2,
+  "category": "gatos",
+  "description": "Arbol rascador color Beige. Medidas: 50 x 60 x 70",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1628783592539-cef32fec57e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "stock": 7
+},
+{
+  "_id": {
+    "$oid": "6612ed6591401df3da895551"
+  },
+  "title": "peluche donas",
+  "price": 900,
+  "code": 3,
+  "category": "perros",
+  "description": "mini peluches donas",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1549297161-14f79605a74c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "stock": 11,
+  "updatedAt": {
+    "$date": "2024-07-27T20:32:09.077Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6612ee9d91401df3da895552"
+  },
+  "title": "pelota",
+  "price": 1500,
+  "code": 4,
+  "category": "perros",
+  "description": "Pequeña pelota. Rebota.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1424709746721-b8fd0ff52499?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGV0JTIwc2FuZHxlbnwwfHwwfHx8MA%3D%3D"
+  ],
+  "stock": 5
+},
+{
+  "_id": {
+    "$oid": "661748f3e6b5724a315ff06e"
+  },
+  "title": "traje navideño",
+  "price": 6000,
+  "code": 5,
+  "category": "perros",
+  "description": "Pequeño traje XL.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1605812277142-0679e21b59f3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "stock": 15
+},
+{
+  "_id": {
+    "$oid": "6617550e66b5b1224406abaf"
+  },
+  "title": "bufanda navideña",
+  "price": 4800,
+  "code": 6,
+  "category": "gatos",
+  "description": "color unico",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1609847214429-3bce85575841?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNhdCUyMGNvbGxhcnxlbnwwfHwwfHx8MA%3D%3D"
+  ],
+  "stock": 21
+},
+{
+  "_id": {
+    "$oid": "6617570266b5b1224406abb0"
+  },
+  "title": "casa tunel",
+  "price": 9000,
+  "code": 7,
+  "category": "hamsters",
+  "description": "color unico.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1630412989932-7d422f8ac136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aGFtc3RlciUyMGNvcnJlfGVufDB8fDB8fHww"
+  ],
+  "stock": 1
+},
+{
+  "_id": {
+    "$oid": "661757a066b5b1224406abb1"
+  },
+  "title": "piyama",
+  "price": 9000,
+  "code": 8,
+  "category": "perros",
+  "description": "color unico.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGV0c3xlbnwwfHwwfHx8MA%3D%3D"
+  ],
+  "stock": 4
+},
+{
+  "_id": {
+    "$oid": "661757db66b5b1224406abb2"
+  },
+  "title": "buzo oversize",
+  "price": 20000,
+  "code": 9,
+  "category": "perros",
+  "description": "color unico.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGV0c3xlbnwwfHwwfHx8MA%3D%3D"
+  ],
+  "stock": 9
+},
+{
+  "_id": {
+    "$oid": "661758c166b5b1224406abb3"
+  },
+  "title": "gorro cumpleaños",
+  "price": 20000,
+  "code": 10,
+  "category": "perros",
+  "description": "color unico.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1702156722029-58971574792b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHBldHMlMjBwbGF0b3xlbnwwfHwwfHx8MA%3D%3D"
+  ],
+  "stock": 9,
+  "updatedAt": {
+    "$date": "2024-07-30T01:58:53.473Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "662c0448785d76d9abaa4b9a"
+  },
+  "title": "tunel",
+  "price": 4000,
+  "code": 11,
+  "category": "hamsters",
+  "description": "color unico.",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1630412989932-7d422f8ac136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aGFtc3RlciUyMGNvcnJlfGVufDB8fDB8fHww"
+  ],
+  "stock": 10
+},
+{
+  "_id": {
+    "$oid": "662c0477785d76d9abaa4b9b"
+  },
+  "title": "peluche brocoli",
+  "price": 900,
+  "code": 12,
+  "category": "perros",
+  "description": "mini peluches brocoli",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1549297161-14f79605a74c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "stock": 12
+},
+{
+  "_id": {
+    "$oid": "662c04a5785d76d9abaa4b9c"
+  },
+  "title": "caja pared",
+  "price": 12000,
+  "code": 13,
+  "category": "gatos",
+  "description": "Caja para pared. Medidas: 50 x 60 x 70",
+  "status": true,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1628783592539-cef32fec57e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "stock": 11
+},
+{
+  "_id": {
+    "$oid": "662c0523785d76d9abaa4b9d"
+  },
+  "title": "raton grande con catnip",
+  "price": 2500,
+  "code": 14,
+  "category": "gatos",
+  "description": "Raton grande rosado con catnip. Medidas: 5,35cm.",
+  "status": true,
+  "stock": 7,
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1516750105099-4b8a83e217ee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "updatedAt": {
+    "$date": "2024-07-21T15:22:34.755Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "667993b204000f9d23c84d20"
+  },
+  "title": "cama dona",
+  "description": "otro",
+  "thumbnails": [
+    "https://craftypixels.com/placeholder-image/250x200/7030f0/2d1b52&text=250x200"
+  ],
+  "price": 1000,
+  "status": true,
+  "stock": 10,
+  "code": 15,
+  "createdAt": {
+    "$date": "2024-06-24T15:41:38.581Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-24T15:41:38.581Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6679b302afc6612012747dc6"
+  },
+  "title": "caja beige",
+  "description": "otro",
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1628783592539-cef32fec57e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "price": 1700,
+  "status": true,
+  "stock": 2,
+  "code": 16,
+  "createdAt": {
+    "$date": "2024-06-24T17:55:14.159Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-24T17:55:14.159Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6679b319afc6612012747dcd"
+  },
+  "title": "dino hueso",
+  "description": "sin descripcion",
+  "thumbnails": [
+    "https://craftypixels.com/placeholder-image/250x200/7030f0/2d1b52&text=250x200"
+  ],
+  "price": 2000,
+  "status": true,
+  "stock": 2,
+  "code": 17,
+  "createdAt": {
+    "$date": "2024-06-24T17:55:37.438Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-24T17:55:37.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6679da48afc6612012747dd5"
+  },
+  "title": "box beige xl",
+  "description": "sin descripcion",
+  "thumbnails": [
+    "https://images.unsplash.com/photo-1628783592539-cef32fec57e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBldHMlMjB0b3lzfGVufDB8fDB8fHww"
+  ],
+  "price": 2,
+  "status": true,
+  "stock": 14,
+  "code": 18,
+  "createdAt": {
+    "$date": "2024-06-24T20:42:48.721Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-30T01:15:10.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66a44dfeb7c829a14f7c271a"
+  },
+  "title": "disfraz leon gatos",
+  "description": "El disfraz del Leon para gato es cómodo y de uso fácil. Este producto es para gatos de cualquier edad.",
+  "thumbnails": [
+    "https://tse3.mm.bing.net/th?id=OIG3.eREBQA0Fnp9tRADloio_&pid=ImgGn"
+  ],
+  "price": 2860,
+  "status": true,
+  "stock": 4,
+  "code": 19,
+  "createdAt": {
+    "$date": "2024-07-27T01:31:42.312Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-27T19:54:19.653Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66a452e9b7c829a14f7c271d"
+  },
+  "title": "disfraz superman",
+  "description": "El disfraz de Superman para perros es cómodo y de uso fácil. Este producto es para perros de todas las edades y tamaños.",
+  "thumbnails": [
+    "https://tse3.mm.bing.net/th?id=OIG3.eREBQA0Fnp9tRADloio_&pid=ImgGn"
+  ],
+  "price": 2990,
+  "status": true,
+  "stock": 4,
+  "code": 20,
+  "createdAt": {
+    "$date": "2024-07-27T01:52:41.593Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-27T01:52:41.593Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66a4537ab7c829a14f7c2736"
+  },
+  "title": "disfraz Superman",
+  "description": "Disfraz para perros de todas las edades y tamaños.",
+  "thumbnails": [
+    "https://tse2.mm.bing.net/th?id=OIG2.G2bXkRPHEEOeV4m67n97&pid=ImgGn"
+  ],
+  "price": 3500,
+  "status": true,
+  "stock": 8,
+  "code": 21,
+  "createdAt": {
+    "$date": "2024-07-27T01:55:06.766Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-27T01:55:06.766Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66afa49e763175a2f2185f7c"
+  },
+  "title": "pelota t",
+  "description": "pelota t",
+  "thumbnails": [
+    "https://tse2.mm.bing.net/th?id=OIG1.Xo8MUoBhD3nM1vFYG1Vi&pid=ImgGn"
+  ],
+  "price": 123,
+  "status": true,
+  "stock": 1,
+  "code": 22,
+  "createdBy": [],
+  "createdAt": {
+    "$date": "2024-08-04T15:56:14.241Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-04T15:56:14.241Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66afa51f4346dc01dab19652"
+  },
+  "title": "box",
+  "description": "box",
+  "thumbnails": [
+    "https://tse2.mm.bing.net/th?id=OIG2.8K7WtvQP7k2FJKlfamjg&pid=ImgGn"
+  ],
+  "price": 2345,
+  "status": true,
+  "stock": 10,
+  "code": 23,
+  "createdAt": {
+    "$date": "2024-08-04T15:58:23.534Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-04T15:58:23.534Z"
+  }
+}]

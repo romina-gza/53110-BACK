@@ -4,6 +4,9 @@
  - **Tema del Proyecto:** "Petshop & Veterinaria"
  - **Autor:** Romina Galarza
 
+## Datos de productos
+Los datos de almenos 20 productos se encuentran en la carpeta "importantData" (al mismo nivel de src) el file: "ecommerce.products.json" (éste fue importado desde mongo DB)
+
 ## Heramientas
     + Node JS
     + Express
@@ -111,3 +114,4 @@ El comando `npm run dev` Ejecuta el archivo app.js usando Nodemon, que reinicia 
    npm run dev
 ```
 :sunglasses: :call_me_hand: ¡Sigamos codeando! :sunglasses: :call_me_hand:
+
