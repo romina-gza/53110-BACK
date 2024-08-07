@@ -25,51 +25,6 @@
 			"response": []
 		},
 		{
-			"name": "apiProducts",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8080/api/products/3"
-			},
-			"response": []
-		},
-		{
-			"name": "apiProducts",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8080/api/products/12"
-			},
-			"response": []
-		},
-		{
-			"name": "apiProducts",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"nuevo test8\",\r\n    \"description\": \"test8 description\",\r\n    \"thumbnails\":[\"link\", \"nuevo\"],\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8080/api/products"
-			},
-			"response": []
-		},
-		{
 			"name": "POST de Sessions register desde x-www-form-urlencoded",
 			"request": {
 				"method": "POST",
@@ -308,6 +263,78 @@
 				"method": "PUT",
 				"header": [],
 				"url": "http://localhost:8080/api/users/premium/66b1643b616fc4d6c1b705ae"
+			},
+			"response": []
+		},
+		{
+			"name": "GET de Products obtiene todos los productos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/products/"
+			},
+			"response": []
+		},
+		{
+			"name": "GET de Products obtiene el  producto con el ID del producto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/products/6612ebe991401df3da89554f"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Products crea el producto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Producto Ejemplo\",\r\n    \"description\": \"Descripción del producto\",\r\n    \"thumbnails\": \"https://tse2.mm.bing.net/th?id=OIG3.CRZQ4PuaYuQYJpTK_eOi&pid=ImgGn\",\r\n    \"price\": 100,\r\n    \"stock\": 10,\r\n    \"status\": true,\r\n    \"code\": 50,\r\n    \"category\": \"gatos\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products/"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT apiProducts actualiza productos con el ID de producto",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Gorro de cumpleaños Gatos\",\r\n    \"description\": \"Gorro de cumpleaños para gatos\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products/66b23259813156c577e483b7"
+			},
+			"response": []
+		},
+		{
+			"name": "apiProducts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products/12"
 			},
 			"response": []
 		}
