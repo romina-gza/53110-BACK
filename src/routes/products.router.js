@@ -1,6 +1,5 @@
 import { Router } from "express"
 import ProductsController from "../controller/products.controller.js"
-import path from "path"
 import __dirname from "../utils.js"
 
 

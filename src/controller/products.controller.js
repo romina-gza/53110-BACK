@@ -5,12 +5,23 @@ export default class ProductsController {
         try {
             let { skip, limit } = req.query
             let products = await productsServices.getAllProducts()
+            
+            if (!products) {
+                res.setHeader('Content-Type', 'application/json')
+                return res.status(400).json({"message": `Ups! Hubo un error al obtener los productos.`})
+            }
+
+            if ( products.length  === 0 ) {
+                res.setHeader('Content-Type', 'application/json')
+                return res.status(200).json({"message": "Aún no hay productos aquí."})
+            }
+
             if ( skip > 0 ) products = products.slice(skip)
             
             if ( limit > 0 ) products = products.slice(0,limit)
         
             res.setHeader('Content-Type', 'application/json')
-            res.status(200).json( products ) 
+            res.status(200).json( {"message": products} ) 
         } catch (err) {
             req.logger.fatal(`Error desde 'products', en 'getAllProducts'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
@@ -20,15 +31,13 @@ export default class ProductsController {
 
     static getProductsId = async (req, res) => {
         try {
-            let pid = Number(req.params.pid)
-            if (isNaN(pid)) {
+            let pid = req.params.pid
+            if (!pid) {
                 res.setHeader('Content-Type', 'application/json')
-                return res.status(400).json({"message": "El id debe ser un número"})
+                return res.status(400).json({"message": "Ingresa un ID"})
             }
             let products = await productsServices.getAllProducts()
-
-            let findProducts = products.find(obj => obj.id == pid)
-        
+            let findProducts = products.find(obj => obj._id == pid)
             if ( findProducts ) {
                 products = findProducts
             } else {
@@ -37,7 +46,7 @@ export default class ProductsController {
                 return res.status(400).json( products )
             }    
             res.setHeader('Content-Type', 'application/json')
-            res.status(200).json( products )
+            res.status(200).json( {message: products} )
         } catch (err) {
             req.logger.fatal(`Error desde 'products', en 'getProductsId'. El error: ${err}`)
             res.setHeader('Content-Type', 'application/json')
@@ -63,7 +72,7 @@ export default class ProductsController {
                 description, 
                 thumbnails: [thumbnails], 
                 price, stock, code, 
-                status: status.trim() !== undefined ? status : true, 
+                status: status !== undefined || !status ? status : true, 
                 category
             }
 
@@ -84,13 +93,31 @@ export default class ProductsController {
     static updateProductById = async (req, res) => {
         try {
             const { pid } = req.params
-            await productsServices.updateProducts(pid, req.body)
-            res.setHeader('Content-Type', 'application/json')
-            res.status(200).json( { "message": "solcitud exitosa!" } )
+            //const updateData = req.body;
+            //let res = await productsServices.updateProducts(pid, req.body)
+            
+            const allowedFields = ['title', 'description', 'price', 'stock', 'category', 'thumbnails', 'status', 'code'];
+        const requestFields = Object.keys(req.body);
+
+        // Verificar si hay campos no permitidos en la solicitud
+        const invalidFields = requestFields.filter(key => !allowedFields.includes(key));
+
+        if (invalidFields.length > 0) {
+            return res.status(400).json({
+                message: "Solicitud contiene campos no permitidos",
+                invalidFields
+            });
+        }
+            let resp = await productsServices.updateProducts(pid, req.body)
+            
+            console.log('PIDDD', pid)
+console.log('RESSS', resp)
+            //res.setHeader('Content-Type', 'application/json')
+            res.status(200).json( { message: `solcitud exitosa! Nuevo producto: ${resp}` } )
         } catch (err) {
             req.logger.fatal(`Error desde 'products', en 'updateProductById'. El error: ${err}`)
-            res.setHeader('Content-Type', 'application/json')
-            res.status(500).json( { "message":" Hubo un error" } )
+            //res.setHeader('Content-Type', 'application/json')
+            res.status(500).json( { message: `Hubo un error: ${err}` } )
         }
     }
     static deleteProductById = async (req, res) => {

@@ -54,17 +54,18 @@ app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname, "views"))
 app.use(cartIdMiddleware)
+const midlewareSocket = (req, res, next) => {
+    req.io = io
+    next()    
+}
 
-app.use('/api/products', productsRouter)
+app.use('/api/products', midlewareSocket,productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', sessionsRouter)
 app.use('/api/users', usersRouter)
 
 
-const midlewareSocket = (req, res, next) => {
-    req.io = io
-    next()    
-}
+
 app.use('/', midlewareSocket, viewsRouter)
 
 // CHAT

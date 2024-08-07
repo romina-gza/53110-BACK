@@ -35,7 +35,9 @@ class ProductsServices {
     }
     async updateProducts (id, newProducts) {
         try {
-            return await this.ProductsServices.updateProducts({_id: id}, {newProducts})
+           // return await this.ProductsServices.updateProducts({_id: id}, {newProducts})
+            return await this.ProductsServices.updateProducts(id, newProducts)
+        
         } catch (err) {
             return err
         }
