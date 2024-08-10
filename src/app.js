@@ -21,6 +21,7 @@ import { config } from './config/config.js'
 import { productsServices } from './services/products.service.js'
 import cartIdMiddleware from './middleware/cart.js'
 
+
 const PORT = config.PORT
 
 const app = express()

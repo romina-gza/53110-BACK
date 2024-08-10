@@ -30,26 +30,43 @@ export class CartsMongoDAO {
             return err
         }
     }
+
     async addToCart (cid, pid, quantity) {
         try {
-        // Verificar si el producto ya existe en el carrito
+            // Asegurarte de que `pid` sea un ObjectId
+            const objectIdProduct = new mongoose.Types.ObjectId(pid)
+    
             const existingProduct = await cartsModel.findOneAndUpdate(
-                { _id: cid, 'products.productId': pid },
+                { _id: cid, 'products.productId': objectIdProduct },
                 { $inc: { 'products.$.quantity': quantity } },
-                { new: true } 
+                { new: true }
             )
-        // Si el producto no existe en el carrito, lo agrega
+    
             if (!existingProduct) {
                 const updatedCart = await cartsModel.findByIdAndUpdate(
                     cid,
-                    { $push: { products: { productId: pid, quantity } } })
+                    {
+                        $push: {
+                            products: {
+                                productId: objectIdProduct,
+                                quantity: quantity
+                            }
+                        }
+                    },
+                    { new: true }
+                )
+    
                 return updatedCart
             }
+    
             return existingProduct
         } catch (err) {
+            console.error(`Error al agregar al carrito: ${err.message}`)
             return err
         }
     }
+    
+
     async updateACart (cid, newProducts) {
         try {
 
@@ -76,7 +93,7 @@ export class CartsMongoDAO {
     }
     async deleteProduct(cid, pid) {
         try {
-            const cartId = cid;
+            const cartId = cid
             const prodId = pid 
             let result = await cartsModel.findOneAndUpdate(
                 { _id: cartId},
@@ -108,34 +125,44 @@ export class CartsMongoDAO {
             await cart.save()
             const user = await usersModel.findById(userId)
             user.cart = cart._id
-            await user.save()            
+            return await user.save()            
         } catch (err) {
             return err
         }
     }
 
-    async calculateTotalPrice (cartId) {
+    async calculateTotalPrice(cartId) {
         try {
             const cart = await cartsModel.findById(cartId).populate('products.productId')
             if (!cart) {
-                throw new Error('Cart not found')
-            } 
-            let totalPrice = 0
-        
-            for (const item of cart.products) {
-                    if (item.quantity <= item.productId.stock) {
-                        totalPrice += item.productId.price * item.quantity
-                    }
+                throw new Error(`Carrito con id ${cartId} no encontrado`)
             }
-            
+    
+            let totalPrice = 0
+    
+            for (const item of cart.products) {
+                if (!item.productId) {
+                    throw new Error(`Producto no encontrado para el item con id ${item._id}`)
+                }
+    
+                const productPrice = item.productId.price || 0
+                const productQuantity = item.quantity || 1
+                
+                totalPrice += productPrice * productQuantity
+            }
+    
+            // Actualiza el precio total del carrito en la base de datos
             cart.totalPrice = totalPrice
             await cart.save()
-            return cart.totalPrice
+    
+            return totalPrice
         } catch (err) {
-            return err
+            console.error(`Error al calcular el precio total: ${err.message}`)
+            throw err
         }
-        
     }
+    
+    
     // Ticket
     async getLastTicketCode() {
         try {

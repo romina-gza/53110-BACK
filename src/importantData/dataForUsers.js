@@ -5,13 +5,13 @@
     /* romina y cristopher ejemplos de users normales */
     {
         "first_name": "adminCoder",
-        "email": "",
+        "email": "adminCoder@coder.com",
         "password": "adminCod3r123",
         
     },
     {
         "first_name": "romina",
-        "email": "romina.celeste.gzaqgmail.com",
+        "email": "romina.celeste.gza@gmail.com",
         "password": "123",
     },
     {

@@ -15,6 +15,15 @@ export class UsersMongoDAO {
         }
     }
 
+    async getByCid (filter) {
+        try {
+            let respons = await usersModel.findOne(filter)  
+            return respons
+        } catch (error) {
+            return error
+        }
+    }
+
     async createUser (user) {
         let newUser = await usersModel.create(user)
         return newUser.toJSON()

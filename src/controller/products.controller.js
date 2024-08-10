@@ -110,13 +110,11 @@ export default class ProductsController {
         }
             let resp = await productsServices.updateProducts(pid, req.body)
             
-            console.log('PIDDD', pid)
-console.log('RESSS', resp)
-            //res.setHeader('Content-Type', 'application/json')
+            res.setHeader('Content-Type', 'application/json')
             res.status(200).json( { message: `solcitud exitosa! Nuevo producto: ${resp}` } )
         } catch (err) {
             req.logger.fatal(`Error desde 'products', en 'updateProductById'. El error: ${err}`)
-            //res.setHeader('Content-Type', 'application/json')
+            res.setHeader('Content-Type', 'application/json')
             res.status(500).json( { message: `Hubo un error: ${err}` } )
         }
     }

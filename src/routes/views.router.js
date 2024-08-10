@@ -153,6 +153,7 @@ router.get("/cart", async (req, res)=> {
     }
 })
 router.get("/register", (req, res) => {
+
     res.status(200).render("register", { err: req.query.err })
 })
 

@@ -17,4 +17,4 @@ router.put('/:cid/product/:pid', CartsController.updateQuantity)
 // Delete - eliminar todos los productos del carrito
 router.delete('/:cid', CartsController.deleteAllProducts)
 
-router.post('/:cid/purchase', CartsController.processPurchase);
+router.post('/:cid/purchase', CartsController.processPurchase)

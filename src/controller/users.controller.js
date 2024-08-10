@@ -76,13 +76,15 @@ export default class UsersController {
             }
             password = createHash(password);
             let newUser = await userService.createUser({ first_name, email: username, password })
-            await cartsServices.createCartForUser(newUser._id)
+            const cart = await cartsServices.createCartForUser(newUser._id)
+            newUser.cart = cart;
             return done(null, newUser);
         } catch (err) {
             logger.fatal(`Error desde 'users', en 'registerUser'. El error: ${err}`)
             return done(err);
         }
     }
+
 
     static loginUser = async ( username, password, done ) => {
         try {

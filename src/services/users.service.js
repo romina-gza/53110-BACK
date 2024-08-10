@@ -25,6 +25,15 @@ class UserService {
             return err
         }
     }
+
+    async getUserByCid (cid) {
+        try {
+            return await this.UserService.getByCid({ cart: cid })
+        } catch (err) {
+            return err
+        }
+    }
+
     async createUser (user) {
         try {
             return await this.UserService.createUser(user)

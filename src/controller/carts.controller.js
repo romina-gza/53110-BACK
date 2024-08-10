@@ -1,5 +1,7 @@
 import { sendEmail } from "../email.js"
 import { cartsServices } from "../services/carts.service.js"
+import { productsServices } from "../services/products.service.js"
+import { userService } from "../services/users.service.js"
 
 export default class CartsController {
 
@@ -37,20 +39,39 @@ export default class CartsController {
             
             const { quantity } = req.body
             const {cid}  = req.params 
-            const {productId} = req.params 
+            const {pid} = req.params 
 
-            const updatedCart = await cartsServices.addToCart(cid, productId, quantity)
+            // Verifica q pid exista en la base de datos
+            const productExists = await productsServices.getProductsById(pid)
+            if (!productExists) {
+                return res.status(404).json({ message: `Producto con id ${pid} no encontrado` })
+            }
 
-
-            await cartsServices.calculateTotalPrice(cid)
+            // Verificar si pid no fue enviado en req.params
+            if (!pid) {
+                return res.status(400).json({ message: `Producto id no proporcionado en la solicitud` })
+            }
             
-            res.status(200).json(updatedCart)
+            const updatedCart = await cartsServices.addToCart(cid, pid, quantity)
+            let cartCTP = await cartsServices.calculateTotalPrice(cid)
+
+            const cartDetails = {
+                cartId: updatedCart._id,
+                products: updatedCart.products,
+                totalPrice: cartCTP
+            }
+    
+            // Enviar la respuesta con los detalles del carrito
+            res.status(200).json({
+                message: 'Carrito actualizado con éxito',
+                cart: cartDetails
+            })
         } catch (err) {
             req.logger.fatal(`Error en 'Carts' al momento de 'addToCart'. El error: ${err}`)
-            
             res.status(500).send(err)
         }
     }
+
     static deleteProduct = async ( req, res ) => {
         try {
             let { cid, pid } = req.params
@@ -85,7 +106,7 @@ export default class CartsController {
             const { quantity } = req.body
 
             if (!quantity) {
-                return res.status(400).json({ message: "Quantity is required" });
+                return res.status(400).json({ message: "Quantity is required" })
             }
             await cartsServices.updateQuantity(cid,pid, quantity)
             
@@ -117,31 +138,44 @@ export default class CartsController {
 
     static processPurchase = async (req, res) => {
         try {
-            const cartId = req.cartId
-            const totalAmount = await cartsServices.calculateTotalPrice(cartId)
-
-            const userEmail = req.session.existUser.email
-            let resp = await cartsServices.processPurchase(cartId, totalAmount, userEmail)
-            
+            const { cid } = req.params
+            // Buscar al usuario por el cart ID (cid) usando el userService
+            const user = await userService.getUserByCid(cid)
+            if (user instanceof Error || !user) {
+                return res.status(404).json({ message: 'Usuario no encontrado para el carrito proporcionado.' })
+            }
+    
+            // Obtener el correo electrónico del usuario y otros datos necesarios
+            const userEmail = user.email
+            const userName = user.first_name
+    
+            // Calcular el precio total del carrito
+            const totalAmount = await cartsServices.calculateTotalPrice(cid)
+    
+            // Procesar la compra
+            let resp = await cartsServices.processPurchase(cid, totalAmount, userEmail)
+    
+            // Obtener el ticket generado y los productos no procesados
             let yourTicket = resp.createdNewTicket
-            // devuelve productos no procesados 
             let notProcessed = resp.productsNotProcessed
-            // datos importantes - reutilizar cuando crees la vista ticket.
+    
+            // Log de información
             req.logger.info(`Este es su ticket: ${yourTicket}`)
-            
-            await sendEmail(userEmail, req.session.existUser.first_name, yourTicket._id, yourTicket.purchase_datetime)
-            
-            res.setHeader('Content-Type','application/json')
-            res.status(201).json({ 
-                message: 'Ticket creado para el carrito:', 
-                cartId, 
-                yourTicket, 
+    
+            // Enviar un correo electrónico con el ticket
+            await sendEmail(userEmail, userName, yourTicket._id, yourTicket.purchase_datetime)
+    
+            // Responder con la información del ticket y productos no procesados
+            res.status(201).json({
+                message: 'Ticket creado para el carrito',
+                cartId: cid,
+                yourTicket,
                 notProcessed
             })
         } catch (err) {
             req.logger.fatal(`Error en 'Carts' al momento de 'processPurchase'. El error: ${err}`)
-            res.setHeader('Content-Type','application/json')
-            res.status(500).json({ message: 'Error interno del servidor' })
+            res.status(500).json({ message: 'Error interno del servidor', error: err.message })
         }
     }
+    
 }

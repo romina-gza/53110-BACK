@@ -8,12 +8,17 @@ export const sessionsRouter = Router()
 sessionsRouter.get('/registerError', (req, res)=> {
     return res.status(400).redirect('/register?err=Error%20al%20momento%20de%20registrarse')
 })
+
 sessionsRouter.post('/register', 
     passport.authenticate('register', 
     {failureRedirect: '/api/sessions/registerError'} ),
     (req, res)=> {
-    return res.redirect('/login')
-})
+        const newUser = req.user
+        res.setHeader('Content-Type', 'application/json')
+        res.status(200).json({message: `Registro exitoso, usuario: ${newUser.email} /n ID de carrito:${newUser.cart.cart}`})
+    }
+)
+
 
 sessionsRouter.get('/loginError', (req, res)=> {
     return res.status(400).redirect('/login?err=Error%20al%20momento%20de%20logearse')
