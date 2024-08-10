@@ -7,7 +7,72 @@
 	},
 	"item": [
 		{
-			"name": "apiProducts",
+			"name": "POST de Sessions register desde x-www-form-urlencoded",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "first_name",
+							"value": "ramona",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "ramona@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/sessions/register"
+			},
+			"response": []
+		},
+		{
+			"name": "ADDtocart de Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quantity\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8/product/6617570266b5b1224406abb0"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Cart processPurchase",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quantity\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8/product/6617570266b5b1224406abb0"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Products crea el producto desde body",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -21,35 +86,6 @@
 					}
 				},
 				"url": "http://localhost:8080/api/products"
-			},
-			"response": []
-		},
-		{
-			"name": "POST de Sessions register desde x-www-form-urlencoded",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "first_name",
-							"value": "ninaa",
-							"type": "text"
-						},
-						{
-							"key": "email",
-							"value": "ninaa@gmail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123",
-							"type": "text"
-						}
-					]
-				},
-				"url": "http://localhost:8080/api/sessions/register"
 			},
 			"response": []
 		},
@@ -83,24 +119,6 @@
 				"method": "GET",
 				"header": [],
 				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8"
-			},
-			"response": []
-		},
-		{
-			"name": "ADDtocart de Cart",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"quantity\": 2\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8/product/6617570266b5b1224406abb0"
 			},
 			"response": []
 		},
