@@ -16,12 +16,12 @@
 					"urlencoded": [
 						{
 							"key": "first_name",
-							"value": "ramona",
+							"value": "rominaGalar",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "ramona@gmail.com",
+							"value": "romina.celeste.gza@gmail.com",
 							"type": "text"
 						},
 						{
@@ -42,14 +42,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"quantity\": 2\r\n}\r\n",
+					"raw": "{\r\n  \"quantity\": 1\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8/product/6617570266b5b1224406abb0"
+				"url": "http://localhost:8080/api/carts/66b80057d8523308e8102848/product/6612ebe991401df3da89554f"
 			},
 			"response": []
 		},
@@ -60,14 +60,38 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"quantity\": 2\r\n}\r\n",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/carts/669e3cabbe5ce72f7bd3acf8/product/6617570266b5b1224406abb0"
+				"url": "http://localhost:8080/api/carts/66b80057d8523308e8102848/purchase"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de Sessions login desde x-www-form-urlencoded",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "romina.celeste.gza@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/sessions/login"
 			},
 			"response": []
 		},
@@ -86,30 +110,6 @@
 					}
 				},
 				"url": "http://localhost:8080/api/products"
-			},
-			"response": []
-		},
-		{
-			"name": "POST de Sessions login desde x-www-form-urlencoded",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "ninaa@gmail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123",
-							"type": "text"
-						}
-					]
-				},
-				"url": "http://localhost:8080/api/sessions/login"
 			},
 			"response": []
 		},

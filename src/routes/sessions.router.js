@@ -24,37 +24,49 @@ sessionsRouter.get('/loginError', (req, res)=> {
     return res.status(400).redirect('/login?err=Error%20al%20momento%20de%20logearse')
 })
 
-sessionsRouter.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError' }), async (req, res)=> {
-    
+sessionsRouter.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError' }), async (req, res) => {
     let existUser = req.user
+
+    // Eliminamos la contraseña del objeto del usuario por seguridad
     delete existUser.password
+
+    // Almacenamos el usuario en la sesión
     req.session.existUser = existUser
+
     try {
-        req.logger.info(`message from /login: ID del user${existUser._id}`)
-        res.setHeader('Content-Type', 'application/text')
-        return res.redirect('http://localhost:8080/products')
+        req.logger.info(`message from /login: ID del user ${existUser._id}`)
+
+        // Respondemos con la información del usuario
+        res.setHeader('Content-Type', 'application/json')
+        return res.status(200).json({
+            message: 'Login exitoso',
+            userId: existUser._id,
+            email: existUser.email,
+            cartId: existUser.cart ? existUser.cart : null
+        })
     } catch (err) {
         res.setHeader('Content-Type', 'application/json')
-        return res.status(500).json({error: `Error en el servidor. Error: ${err.message}`})
+        return res.status(500).json({ error: `Error en el servidor. Error: ${err.message}` })
     }
 })
 
 sessionsRouter.get("/logout", (req, res) => {
     req.session.destroy(e => {
-            if ( e ) {
-                res.setHeader('Content-Type', 'application/json')
-                return res.status(500).json({
-                    error: "Error inesperado. Intente más tarde",
-                    detail: `${e.message}`
-                }
-            )
+        if (e) {
+            res.setHeader('Content-Type', 'application/json')
+            return res.status(500).json({
+                error: "Error inesperado. Intente más tarde",
+                detail: `${e.message}`
+            })
         }
+        res.setHeader('Content-Type', 'application/json')
+        logger.info("Logout exitoso")
+        return res.status(200).json({
+            message: "Logout exitoso"
+        })
     })
-    res.setHeader('Content-Type', 'application/text')
-    logger.info("Logout exitoso")
-    return res.redirect('http://localhost:8080/login')
-
 })
+
 
 // con github
 sessionsRouter.get('/github', passport.authenticate('github', {}), (req, res)=> {})
